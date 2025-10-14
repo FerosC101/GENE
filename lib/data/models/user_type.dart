@@ -35,4 +35,30 @@ enum UserType {
         return '🏥';
     }
   }
+
+  /// Parse a [String] coming from storage (Firestore, API) into a [UserType].
+  ///
+  /// This is tolerant of common formats such as:
+  /// - enum name: "hospitalStaff"
+  /// - snake/case/space variants: "hospital_staff", "Hospital Staff"
+  /// - short forms like "staff"
+  static UserType fromString(String? value) {
+    if (value == null) return UserType.patient;
+
+    final normalized = value.toLowerCase().replaceAll(RegExp(r'[\s_\-]'), '');
+
+    for (final t in UserType.values) {
+      final nameNorm = t.name.toLowerCase();
+      final displayNorm = t.displayName.toLowerCase().replaceAll(RegExp(r'[\s_\-]'), '');
+
+      if (normalized == nameNorm || normalized == displayNorm) return t;
+    }
+
+    // Accept shorter synonyms
+    if (normalized.contains('staff')) return UserType.hospitalStaff;
+    if (normalized.contains('doctor')) return UserType.doctor;
+
+    // Fallback to patient
+    return UserType.patient;
+  }
 }

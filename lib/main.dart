@@ -9,13 +9,12 @@ import 'package:smart_hospital_app/presentation/screens/auth/welcome_screen.dart
 import 'package:smart_hospital_app/presentation/screens/home/home_screen.dart';
 import 'package:smart_hospital_app/presentation/screens/staff/staff_dashboard_screen.dart';
 import 'package:smart_hospital_app/presentation/screens/splash/splash_screen.dart';
-import 'firebase_options.dart'; // ✅ Make sure this exists
+import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   try {
-    // ✅ Initialize Firebase with correct platform-specific config
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
@@ -42,7 +41,7 @@ class MyApp extends ConsumerWidget {
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
       home: authState.when(
-        data: (user) {
+        data: (user) {          
           if (user != null) {
             return Consumer(
               builder: (context, ref, child) {
@@ -50,38 +49,39 @@ class MyApp extends ConsumerWidget {
 
                 return userDataAsync.when(
                   data: (userData) {
-
-                    debugPrint('User data loaded: ${userData?.toMap()}');
-                    debugPrint('User type: ${userData?.userType}');
+            
                     if (userData == null) {
-                      debugPrint('⚠️ User data is null, redirecting to welcome');
                       return const WelcomeScreen();
                     }
-
-                    // ✅ Route based on user type
+                    
                     switch (userData.userType) {
                       case UserType.hospitalStaff:
-                        return StaffDashboardScreen();
-                      case UserType.doctor:
                         return const StaffDashboardScreen();
+                        
+                      case UserType.doctor:
+                        return const HomeScreen();
+                        
                       case UserType.patient:
                         return const HomeScreen();
                     }
                   },
-                  loading: () => const SplashScreen(),
+                  loading: () {
+                    return const SplashScreen();
+                  },
                   error: (error, stack) {
-                    debugPrint('User data error: $error');
                     return const WelcomeScreen();
                   },
                 );
               },
             );
           }
+          
           return const WelcomeScreen();
         },
-        loading: () => const SplashScreen(),
+        loading: () {
+          return const SplashScreen();
+        },
         error: (error, stack) {
-          debugPrint('Auth error: $error');
           return const WelcomeScreen();
         },
       ),

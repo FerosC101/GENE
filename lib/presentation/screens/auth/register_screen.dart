@@ -6,6 +6,7 @@ import 'package:smart_hospital_app/presentation/providers/auth_provider.dart';
 import 'package:smart_hospital_app/presentation/screens/auth/login_screen.dart';
 import 'package:smart_hospital_app/presentation/screens/auth/widgets/auth_text_field.dart';
 import 'package:smart_hospital_app/presentation/screens/home/home_screen.dart';
+import 'package:smart_hospital_app/presentation/screens/staff/staff_dashboard_screen.dart';
 
 class RegisterScreen extends ConsumerStatefulWidget {
   final UserType userType;
@@ -117,10 +118,50 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
           ),
         );
 
-        Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (context) => const HomeScreen()),
-          (route) => false,
-        );
+        try {
+          // try provider with short timeout first
+          final userData = await ref.read(currentUserProvider.future).timeout(const Duration(seconds: 4));
+          if (userData != null) {
+            final Widget target = userData.userType == UserType.hospitalStaff
+                ? StaffDashboardScreen()
+                : const HomeScreen();
+
+            Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(builder: (context) => target),
+              (route) => false,
+            );
+            return;
+          }
+        } catch (_) {
+          // fallthrough
+        }
+
+        // fallback: fetch directly from AuthService
+        try {
+          final authService = ref.read(authServiceProvider);
+          final currentUser = authService.currentUser;
+          if (currentUser == null) {
+            Navigator.of(context).popUntil((route) => route.isFirst);
+            return;
+          }
+
+          final userData = await authService.getUserData(currentUser.uid);
+          if (userData == null) {
+            Navigator.of(context).popUntil((route) => route.isFirst);
+            return;
+          }
+
+          final Widget target = userData.userType == UserType.hospitalStaff
+              ? StaffDashboardScreen()
+              : const HomeScreen();
+
+          Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (context) => target),
+            (route) => false,
+          );
+        } catch (e) {
+          Navigator.of(context).popUntil((route) => route.isFirst);
+        }
       }
     } catch (e) {
       if (mounted) {

@@ -6,6 +6,7 @@ import 'package:smart_hospital_app/presentation/providers/auth_provider.dart';
 import 'package:smart_hospital_app/presentation/screens/auth/register_screen.dart';
 import 'package:smart_hospital_app/presentation/screens/auth/widgets/auth_text_field.dart';
 import 'package:smart_hospital_app/presentation/screens/home/home_screen.dart';
+import 'package:smart_hospital_app/presentation/screens/staff/staff_dashboard_screen.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   final UserType userType;
@@ -45,10 +46,53 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
           );
 
       if (mounted) {
-        Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (context) => const HomeScreen()),
-          (route) => false,
-        );
+        // Wait for the user data to be available from the provider, then
+        // navigate explicitly to the correct screen. This is more reliable
+        // on mobile where the navigation stack can differ.
+        try {
+          // First try: wait briefly for the provider stream to emit
+          final userData = await ref.read(currentUserProvider.future).timeout(const Duration(seconds: 4));
+          if (userData != null) {
+            final Widget target = userData.userType == UserType.hospitalStaff
+                ? StaffDashboardScreen()
+                : const HomeScreen();
+
+            Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(builder: (context) => target),
+              (route) => false,
+            );
+            return;
+          }
+        } catch (_) {
+          // fallthrough: try direct fetch via AuthService
+        }
+
+        // Fallback: directly query AuthService for the current user data
+        try {
+          final authService = ref.read(authServiceProvider);
+          final currentUser = authService.currentUser;
+          if (currentUser == null) {
+            Navigator.of(context).popUntil((route) => route.isFirst);
+            return;
+          }
+
+          final userData = await authService.getUserData(currentUser.uid);
+          if (userData == null) {
+            Navigator.of(context).popUntil((route) => route.isFirst);
+            return;
+          }
+
+          final Widget target = userData.userType == UserType.hospitalStaff
+              ? StaffDashboardScreen()
+              : const HomeScreen();
+
+          Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (context) => target),
+            (route) => false,
+          );
+        } catch (e) {
+          Navigator.of(context).popUntil((route) => route.isFirst);
+        }
       }
     } catch (e) {
       if (mounted) {

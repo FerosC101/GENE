@@ -1,5 +1,7 @@
+// lib/services/auth_service.dart
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:smart_hospital_app/data/models/user_model.dart';
 import 'package:smart_hospital_app/data/models/user_type.dart';
 
@@ -23,10 +25,12 @@ class AuthService {
           'lastLogin': FieldValue.serverTimestamp(),
         });
 
-        return await getUserData(result.user!.uid);
+        final userData = await getUserData(result.user!.uid);
+        return userData;
       }
       return null;
     } on FirebaseAuthException catch (e) {
+      debugPrint('❌ Login error: ${e.code}');
       throw _handleAuthException(e);
     }
   }
@@ -50,24 +54,24 @@ class AuthService {
         final userData = {
           'email': email,
           'fullName': fullName,
-          'userType': userType.name,
+          'userType': userType.name, // CRITICAL: Save as string
           'phoneNumber': phoneNumber,
           'createdAt': FieldValue.serverTimestamp(),
           'lastLogin': FieldValue.serverTimestamp(),
           ...?additionalData,
         };
 
-        await _firestore
-            .collection('users')
-            .doc(result.user!.uid)
-            .set(userData);
+        await _firestore.collection('users').doc(result.user!.uid).set(userData);
 
         await result.user!.updateDisplayName(fullName);
 
-        return await getUserData(result.user!.uid);
+        // Verify data was saved
+        final savedUser = await getUserData(result.user!.uid);
+        return savedUser;
       }
       return null;
     } on FirebaseAuthException catch (e) {
+      debugPrint('❌ Registration error: ${e.code}');
       throw _handleAuthException(e);
     }
   }
@@ -77,10 +81,14 @@ class AuthService {
     try {
       final doc = await _firestore.collection('users').doc(uid).get();
       if (doc.exists) {
-        return UserModel.fromFirestore(doc);
+        final userModel = UserModel.fromFirestore(doc);
+        return userModel;
+      } else {
+        debugPrint('❌ User document does not exist');
       }
       return null;
     } catch (e) {
+      debugPrint('❌ Error fetching user data: $e');
       throw Exception('Failed to get user data: $e');
     }
   }

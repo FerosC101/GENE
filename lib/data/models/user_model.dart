@@ -58,16 +58,37 @@ class UserModel {
 
   factory UserModel.fromFirestore(DocumentSnapshot doc) {
     final data = doc.data() as Map<String, dynamic>;
-    
+
+    // Robust parsing of userType from Firestore. Accepts several formats:
+    // - String: "hospitalStaff", "Hospital Staff", "hospital_staff"
+    // - int: enum index
+    // - Map: { 'name': 'hospitalStaff' } or { 'index': 2 }
+    final raw = data['userType'];
+    UserType parsedUserType;
+
+    if (raw is String) {
+      parsedUserType = UserType.fromString(raw);
+    } else if (raw is int) {
+      parsedUserType = (raw >= 0 && raw < UserType.values.length) ? UserType.values[raw] : UserType.patient;
+    } else if (raw is Map) {
+      if (raw['name'] is String) {
+        parsedUserType = UserType.fromString(raw['name'] as String);
+      } else if (raw['index'] is int) {
+        final idx = raw['index'] as int;
+        parsedUserType = (idx >= 0 && idx < UserType.values.length) ? UserType.values[idx] : UserType.patient;
+      } else {
+        parsedUserType = UserType.patient;
+      }
+    } else {
+      // Last resort: try stringifying the raw value
+      parsedUserType = UserType.fromString(raw?.toString());
+    }
     return UserModel(
       id: doc.id,
       email: data['email'] ?? '',
       fullName: data['fullName'] ?? '',
       phoneNumber: data['phoneNumber'],
-      userType: UserType.values.firstWhere(
-        (e) => e.name == data['userType'],
-        orElse: () => UserType.patient,
-      ),
+  userType: parsedUserType,
       profileImageUrl: data['profileImageUrl'],
       createdAt: (data['createdAt'] as Timestamp?)?.toDate() ?? DateTime.now(),
       lastLogin: (data['lastLogin'] as Timestamp?)?.toDate(),
