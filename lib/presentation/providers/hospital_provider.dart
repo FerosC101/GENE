@@ -1,8 +1,13 @@
 // lib/presentation/providers/hospital_provider.dart
+// ignore_for_file: unnecessary_cast
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:smart_hospital_app/data/models/hospital_model.dart';
 import 'package:smart_hospital_app/data/repositories/hospital_repository.dart';
+import 'package:smart_hospital_app/presentation/providers/patient_provider.dart';
+
+import '../../data/models/patient_model.dart';
 
 // Repository provider
 final hospitalRepositoryProvider = Provider((ref) => HospitalRepository());
@@ -67,4 +72,18 @@ class HospitalController extends StateNotifier<AsyncValue<void>> {
 final hospitalControllerProvider =
     StateNotifierProvider<HospitalController, AsyncValue<void>>((ref) {
   return HospitalController(ref.watch(hospitalRepositoryProvider));
+});
+
+final hospitalStreamProvider = StreamProvider.family<HospitalModel?, String>((ref, hospitalId) {
+  final repository = ref.watch(hospitalRepositoryProvider);
+  return repository.getHospitalStream(hospitalId);
+});
+
+// Patients for a specific hospital (for Digital Twin stats)
+final hospitalPatientsProvider = StreamProvider.family<List<PatientModel>, String>((ref, hospitalId) {
+  return ref.watch(patientsStreamProvider(hospitalId)).when(
+    data: (patients) => Stream<List<PatientModel>>.value(patients as List<PatientModel>),
+    loading: () => Stream<List<PatientModel>>.value(<PatientModel>[]),
+    error: (_, __) => Stream<List<PatientModel>>.value(<PatientModel>[]),
+  ).first.asStream();
 });

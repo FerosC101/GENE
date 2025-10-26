@@ -8,12 +8,22 @@ import 'package:smart_hospital_app/presentation/screens/auth/welcome_screen.dart
 import 'package:smart_hospital_app/presentation/screens/ai/ai_chat_screen.dart';
 import 'package:smart_hospital_app/presentation/screens/patient/hospital_list_screen.dart';
 import 'package:smart_hospital_app/presentation/screens/patient/hospital_detail_screen.dart';
+import 'package:smart_hospital_app/presentation/screens/digital_twin/digital_twin_screen.dart';
+import 'package:model_viewer_plus/model_viewer_plus.dart';
 
-class HomeScreen extends ConsumerWidget {
+class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends ConsumerState<HomeScreen> {
+  String _selectedCard = 'ai'; // 'ai' or 'twin'
+  String? _selectedHospitalId;
+
+  @override
+  Widget build(BuildContext context) {
     final userAsync = ref.watch(currentUserProvider);
     final hospitalsAsync = ref.watch(hospitalsStreamProvider);
 
@@ -329,180 +339,38 @@ class HomeScreen extends ConsumerWidget {
                               Icons.smart_toy_outlined,
                               'AI',
                               () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => const AIChatScreen(),
-                                  ),
-                                );
+                                setState(() {
+                                  _selectedCard = 'ai';
+                                });
                               },
-                              isHighlighted: true,
+                              isHighlighted: _selectedCard == 'ai',
                             ),
                             _buildNavTab(
                               context,
                               Icons.villa_outlined,
                               'Twin',
                               () {
-                                // TODO: Navigate to digital twin
+                                // Show hospital selector if no hospital selected yet
+                                if (_selectedHospitalId == null) {
+                                  _showDigitalTwinSelector(context);
+                                } else {
+                                  setState(() {
+                                    _selectedCard = 'twin';
+                                  });
+                                }
                               },
+                              isHighlighted: _selectedCard == 'twin',
                             ),
                           ],
                         ),
                         const SizedBox(height: 24),
 
-                        // AI Assistant Card with Real Data
-                        InkWell(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const AIChatScreen(),
-                              ),
-                            );
-                          },
-                          child: Container(
-                            padding: const EdgeInsets.all(20),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(16),
-                              border: Border.all(
-                                color: AppColors.primary.withOpacity(0.2),
-                              ),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black.withOpacity(0.05),
-                                  blurRadius: 10,
-                                  offset: const Offset(0, 4),
-                                ),
-                              ],
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  children: [
-                                    Container(
-                                      width: 40,
-                                      height: 40,
-                                      decoration: BoxDecoration(
-                                        color: AppColors.success.withOpacity(0.1),
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                      child: const Icon(
-                                        Icons.support_agent,
-                                        color: AppColors.success,
-                                        size: 22,
-                                      ),
-                                    ),
-                                    const SizedBox(width: 12),
-                                    const Expanded(
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            'AI Medical Assistant',
-                                            style: TextStyle(
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                          Row(
-                                            children: [
-                                              Icon(
-                                                Icons.circle,
-                                                size: 8,
-                                                color: AppColors.success,
-                                              ),
-                                              SizedBox(width: 6),
-                                              Text(
-                                                'Online',
-                                                style: TextStyle(
-                                                  fontSize: 12,
-                                                  color: AppColors.textSecondary,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Container(
-                                      padding: const EdgeInsets.symmetric(
-                                        horizontal: 10,
-                                        vertical: 4,
-                                      ),
-                                      decoration: BoxDecoration(
-                                        color: AppColors.primary.withOpacity(0.1),
-                                        borderRadius: BorderRadius.circular(12),
-                                      ),
-                                      child: const Text(
-                                        'AI',
-                                        style: TextStyle(
-                                          color: AppColors.primary,
-                                          fontSize: 11,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(height: 16),
-                                hospitalsAsync.when(
-                                  data: (hospitals) {
-                                    if (hospitals.isEmpty) {
-                                      return const Text(
-                                        'Hello! I\'m your AI medical assistant. I can help you find hospitals and check availability. How can I assist you today?',
-                                        style: TextStyle(
-                                          fontSize: 13,
-                                          color: AppColors.textSecondary,
-                                          height: 1.5,
-                                        ),
-                                      );
-                                    }
+                        // Bottom Card - AI Assistant or Digital Twin
+                        if (_selectedCard == 'ai')
+                          _buildAIAssistantCard(context, hospitalsAsync)
+                        else
+                          _buildDigitalTwinCard(context),
 
-                                    final firstHospital = hospitals.first;
-                                    return Text(
-                                      'Hello! I\'m your AI medical assistant. I can see ${hospitals.length} hospitals nearby. ${firstHospital.name} has ${firstHospital.status.icuAvailable} ICU beds available. How can I help you today?',
-                                      style: const TextStyle(
-                                        fontSize: 13,
-                                        color: AppColors.textSecondary,
-                                        height: 1.5,
-                                      ),
-                                    );
-                                  },
-                                  loading: () => const Text(
-                                    'Loading hospital data...',
-                                    style: TextStyle(
-                                      fontSize: 13,
-                                      color: AppColors.textSecondary,
-                                    ),
-                                  ),
-                                  error: (_, __) => const Text(
-                                    'Hello! I\'m your AI medical assistant. How can I help you today?',
-                                    style: TextStyle(
-                                      fontSize: 13,
-                                      color: AppColors.textSecondary,
-                                      height: 1.5,
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(height: 16),
-
-                                // Quick Action Buttons
-                                Wrap(
-                                  spacing: 8,
-                                  runSpacing: 8,
-                                  children: [
-                                    _buildQuickActionChip('Find nearest hospital'),
-                                    _buildQuickActionChip('Check ICU availability'),
-                                    _buildQuickActionChip('Emergency routing'),
-                                    _buildQuickActionChip('Book appointment'),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
                         const SizedBox(height: 24),
 
                         // Nearby Hospitals List
@@ -825,6 +693,696 @@ class HomeScreen extends ConsumerWidget {
           fontSize: 11,
           fontWeight: FontWeight.w600,
           color: color,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildAIAssistantCard(BuildContext context, AsyncValue hospitalsAsync) {
+    return InkWell(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const AIChatScreen(),
+          ),
+        );
+      },
+      child: Container(
+        padding: const EdgeInsets.all(20),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(
+            color: AppColors.primary.withOpacity(0.2),
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.05),
+              blurRadius: 10,
+              offset: const Offset(0, 4),
+            ),
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Container(
+                  width: 40,
+                  height: 40,
+                  decoration: BoxDecoration(
+                    color: AppColors.success.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: const Icon(
+                    Icons.support_agent,
+                    color: AppColors.success,
+                    size: 22,
+                  ),
+                ),
+                const SizedBox(width: 12),
+                const Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'AI Medical Assistant',
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Row(
+                        children: [
+                          Icon(
+                            Icons.circle,
+                            size: 8,
+                            color: AppColors.success,
+                          ),
+                          SizedBox(width: 6),
+                          Text(
+                            'Online',
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: AppColors.textSecondary,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 4,
+                  ),
+                  decoration: BoxDecoration(
+                    color: AppColors.primary.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: const Text(
+                    'AI',
+                    style: TextStyle(
+                      color: AppColors.primary,
+                      fontSize: 11,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+            hospitalsAsync.when(
+              data: (hospitals) {
+                if (hospitals.isEmpty) {
+                  return const Text(
+                    'Hello! I\'m your AI medical assistant. I can help you find hospitals and check availability. How can I assist you today?',
+                    style: TextStyle(
+                      fontSize: 13,
+                      color: AppColors.textSecondary,
+                      height: 1.5,
+                    ),
+                  );
+                }
+
+                final firstHospital = hospitals.first;
+                return Text(
+                  'Hello! I\'m your AI medical assistant. I can see ${hospitals.length} hospitals nearby. ${firstHospital.name} has ${firstHospital.status.icuAvailable} ICU beds available. How can I help you today?',
+                  style: const TextStyle(
+                    fontSize: 13,
+                    color: AppColors.textSecondary,
+                    height: 1.5,
+                  ),
+                );
+              },
+              loading: () => const Text(
+                'Loading hospital data...',
+                style: TextStyle(
+                  fontSize: 13,
+                  color: AppColors.textSecondary,
+                ),
+              ),
+              error: (_, __) => const Text(
+                'Hello! I\'m your AI medical assistant. How can I help you today?',
+                style: TextStyle(
+                  fontSize: 13,
+                  color: AppColors.textSecondary,
+                  height: 1.5,
+                ),
+              ),
+            ),
+            const SizedBox(height: 16),
+            Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              children: [
+                _buildQuickActionChip('Find nearest hospital'),
+                _buildQuickActionChip('Check ICU availability'),
+                _buildQuickActionChip('Emergency routing'),
+                _buildQuickActionChip('Book appointment'),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDigitalTwinCard(BuildContext context) {
+    if (_selectedHospitalId == null) {
+      return Container(
+        padding: const EdgeInsets.all(20),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(
+            color: AppColors.primary.withOpacity(0.2),
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.05),
+              blurRadius: 10,
+              offset: const Offset(0, 4),
+            ),
+          ],
+        ),
+        child: Center(
+          child: Column(
+            children: [
+              Icon(
+                Icons.view_in_ar_outlined,
+                size: 60,
+                color: Colors.grey[400],
+              ),
+              const SizedBox(height: 16),
+              const Text(
+                'No hospital selected',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                'Please select a hospital to view its 3D model',
+                style: TextStyle(
+                  fontSize: 14,
+                  color: Colors.grey[600],
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 16),
+              ElevatedButton.icon(
+                onPressed: () => _showDigitalTwinSelector(context),
+                icon: const Icon(Icons.add),
+                label: const Text('Select Hospital'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.primary,
+                  foregroundColor: Colors.white,
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+
+    final hospitalAsync = ref.watch(hospitalStreamProvider(_selectedHospitalId!));
+
+    return hospitalAsync.when(
+      data: (hospital) {
+        if (hospital == null || !hospital.has3dModel) {
+          return Container(
+            padding: const EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(
+                color: AppColors.primary.withOpacity(0.2),
+              ),
+            ),
+            child: const Center(
+              child: Text('Hospital has no 3D model'),
+            ),
+          );
+        }
+
+        return Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(
+              color: AppColors.primary.withOpacity(0.2),
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.05),
+                blurRadius: 10,
+                offset: const Offset(0, 4),
+              ),
+            ],
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Header
+              Padding(
+                padding: const EdgeInsets.all(16),
+                child: Row(
+                  children: [
+                    Container(
+                      width: 40,
+                      height: 40,
+                      decoration: BoxDecoration(
+                        color: AppColors.primary.withOpacity(0.1),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: const Icon(
+                        Icons.view_in_ar,
+                        color: AppColors.primary,
+                        size: 22,
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            hospital.name,
+                            style: const TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const Text(
+                            'Digital Twin',
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: AppColors.textSecondary,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.close, size: 20),
+                      onPressed: () {
+                        setState(() {
+                          _selectedHospitalId = null;
+                          _selectedCard = 'ai';
+                        });
+                      },
+                    ),
+                  ],
+                ),
+              ),
+              
+              // 3D Model Viewer
+              Container(
+                height: 300,
+                width: double.infinity,
+                margin: const EdgeInsets.symmetric(horizontal: 16),
+                decoration: BoxDecoration(
+                  color: Colors.grey[900],
+                  borderRadius: BorderRadius.circular(12),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.2),
+                      blurRadius: 10,
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(12),
+                  child: Stack(
+                    children: [
+                      ModelViewer(
+                        src: hospital.model3dUrl!,
+                        alt: '3D model of ${hospital.name}',
+                        autoRotate: true,
+                        cameraControls: true,
+                        backgroundColor: const Color(0xFF1a1a1a),
+                        shadowIntensity: 1,
+                        shadowSoftness: 0.5,
+                      ),
+                      Positioned(
+                        bottom: 12,
+                        right: 12,
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 12,
+                            vertical: 6,
+                          ),
+                          decoration: BoxDecoration(
+                            color: Colors.black.withOpacity(0.6),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: const Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(
+                                Icons.touch_app,
+                                size: 14,
+                                color: Colors.white70,
+                              ),
+                              SizedBox(width: 6),
+                              Text(
+                                'Drag to rotate',
+                                style: TextStyle(
+                                  color: Colors.white70,
+                                  fontSize: 11,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+
+              // Stats
+              Padding(
+                padding: const EdgeInsets.all(16),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: _buildTwinStatChip(
+                        'ICU Beds',
+                        '${hospital.status.icuAvailable}/${hospital.status.icuTotal}',
+                        Icons.airline_seat_flat,
+                        AppColors.info,
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: _buildTwinStatChip(
+                        'ER Beds',
+                        '${hospital.status.erAvailable}/${hospital.status.erTotal}',
+                        Icons.emergency,
+                        AppColors.error,
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: _buildTwinStatChip(
+                        'Wait Time',
+                        '${hospital.status.waitTimeMinutes} min',
+                        Icons.access_time,
+                        AppColors.warning,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              // View Full Button
+              Padding(
+                padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
+                child: SizedBox(
+                  width: double.infinity,
+                  child: OutlinedButton.icon(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => DigitalTwinScreen(
+                            hospitalId: hospital.id,
+                          ),
+                        ),
+                      );
+                    },
+                    icon: const Icon(Icons.fullscreen),
+                    label: const Text('View Full Digital Twin'),
+                    style: OutlinedButton.styleFrom(
+                      foregroundColor: AppColors.primary,
+                      side: const BorderSide(color: AppColors.primary),
+                      padding: const EdgeInsets.symmetric(vertical: 12),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+      loading: () => Container(
+        height: 200,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: const Center(
+          child: CircularProgressIndicator(),
+        ),
+      ),
+      error: (error, _) => Container(
+        padding: const EdgeInsets.all(20),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Center(
+          child: Text('Error: $error'),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildTwinStatChip(String label, String value, IconData icon, Color color) {
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: color.withOpacity(0.1),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Column(
+        children: [
+          Icon(icon, color: color, size: 20),
+          const SizedBox(height: 4),
+          Text(
+            value,
+            style: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.bold,
+              color: color,
+            ),
+          ),
+          Text(
+            label,
+            style: const TextStyle(
+              fontSize: 10,
+              color: AppColors.textSecondary,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showDigitalTwinSelector(BuildContext context) {
+    final hospitalsAsync = ref.read(hospitalsStreamProvider);
+    
+    showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (context) => Container(
+        padding: const EdgeInsets.all(24),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: AppColors.primary.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: const Icon(
+                    Icons.view_in_ar,
+                    color: AppColors.primary,
+                    size: 24,
+                  ),
+                ),
+                const SizedBox(width: 12),
+                const Text(
+                  'View Digital Twin',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 8),
+            const Text(
+              'Select a hospital to view its 3D model',
+              style: TextStyle(
+                fontSize: 14,
+                color: AppColors.textSecondary,
+              ),
+            ),
+            const SizedBox(height: 20),
+            hospitalsAsync.when(
+              data: (hospitals) {
+                final hospitalsWithModels = hospitals
+                    .where((h) => h.has3dModel)
+                    .toList();
+                
+                if (hospitalsWithModels.isEmpty) {
+                  return Column(
+                    children: [
+                      Icon(
+                        Icons.view_in_ar_outlined,
+                        size: 60,
+                        color: Colors.grey[400],
+                      ),
+                      const SizedBox(height: 16),
+                      const Text(
+                        'No 3D models available yet',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        'Hospitals haven\'t uploaded their 3D building models',
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Colors.grey[600],
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(height: 24),
+                    ],
+                  );
+                }
+                
+                return ConstrainedBox(
+                  constraints: const BoxConstraints(maxHeight: 400),
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: hospitalsWithModels.length,
+                    itemBuilder: (context, index) {
+                      final hospital = hospitalsWithModels[index];
+                      return Card(
+                        margin: const EdgeInsets.only(bottom: 12),
+                        child: ListTile(
+                          contentPadding: const EdgeInsets.all(12),
+                          leading: Container(
+                            width: 50,
+                            height: 50,
+                            decoration: BoxDecoration(
+                              color: AppColors.primary.withOpacity(0.1),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: const Icon(
+                              Icons.view_in_ar,
+                              color: AppColors.primary,
+                              size: 28,
+                            ),
+                          ),
+                          title: Text(
+                            hospital.name,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15,
+                            ),
+                          ),
+                          subtitle: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const SizedBox(height: 4),
+                              Row(
+                                children: [
+                                  const Icon(
+                                    Icons.layers,
+                                    size: 14,
+                                    color: AppColors.textSecondary,
+                                  ),
+                                  const SizedBox(width: 4),
+                                  Text(
+                                    '${hospital.modelMetadata?.floors ?? 0} floors',
+                                    style: const TextStyle(
+                                      fontSize: 12,
+                                      color: AppColors.textSecondary,
+                                    ),
+                                  ),
+                                  const SizedBox(width: 12),
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 6,
+                                      vertical: 2,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      color: AppColors.success.withOpacity(0.1),
+                                      borderRadius: BorderRadius.circular(4),
+                                    ),
+                                    child: const Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Icon(
+                                          Icons.check_circle,
+                                          size: 10,
+                                          color: AppColors.success,
+                                        ),
+                                        SizedBox(width: 4),
+                                        Text(
+                                          '3D Model',
+                                          style: TextStyle(
+                                            fontSize: 10,
+                                            color: AppColors.success,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                          trailing: const Icon(
+                            Icons.arrow_forward_ios,
+                            size: 16,
+                            color: AppColors.textSecondary,
+                          ),
+                          onTap: () {
+                            Navigator.pop(context);
+                            setState(() {
+                              _selectedHospitalId = hospital.id;
+                              _selectedCard = 'twin';
+                            });
+                          },
+                        ),
+                      );
+                    },
+                  ),
+                );
+              },
+              loading: () => const Center(
+                child: Padding(
+                  padding: EdgeInsets.all(32.0),
+                  child: CircularProgressIndicator(),
+                ),
+              ),
+              error: (error, _) => Padding(
+                padding: const EdgeInsets.all(32.0),
+                child: Text('Error: $error'),
+              ),
+            ),
+          ],
         ),
       ),
     );

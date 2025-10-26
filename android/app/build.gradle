@@ -24,7 +24,7 @@ if (flutterVersionName == null) {
 
 android {
     namespace "com.nextcs.gene"
-    compileSdk 34
+    compileSdk 36
     ndkVersion flutter.ndkVersion
 
     compileOptions {
@@ -43,7 +43,8 @@ android {
     defaultConfig {
         applicationId "com.nextcs.gene"
         minSdkVersion flutter.minSdkVersion
-        targetSdk 34
+        targetSdk 36
+        minSdkVersion = flutter.minSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         multiDexEnabled true

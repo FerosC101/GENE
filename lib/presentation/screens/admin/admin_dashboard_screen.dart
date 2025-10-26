@@ -1,13 +1,16 @@
 // lib/presentation/screens/admin/admin_dashboard_screen.dart
+// ignore_for_file: use_super_parameters
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:smart_hospital_app/core/constants/app_colors.dart';
 import 'package:smart_hospital_app/presentation/providers/auth_provider.dart';
 import 'package:smart_hospital_app/presentation/providers/hospital_provider.dart';
 import 'package:smart_hospital_app/presentation/screens/auth/welcome_screen.dart';
-import 'package:smart_hospital_app/presentation/screens/staff/hospital_management_screen.dart';
+import 'package:smart_hospital_app/presentation/screens/staff/hospital_management_screen.dart' hide HospitalManagementScreen;
 import 'package:smart_hospital_app/presentation/screens/staff/doctor_management_screen.dart';
 import 'package:smart_hospital_app/presentation/screens/admin/staff_management_screen.dart';
+import 'package:smart_hospital_app/presentation/screens/admin/hospital_management_screen.dart';
 
 class AdminDashboardScreen extends ConsumerWidget {
   const AdminDashboardScreen({super.key});
@@ -185,6 +188,16 @@ class AdminDashboardScreen extends ConsumerWidget {
                 const SizedBox(height: 16),
 
                 _ManagementCard(
+                  title: 'Digital Twin Viewer',
+                  subtitle: 'View 3D hospital models and run simulations',
+                  icon: Icons.view_in_ar,
+                  color: const Color(0xFF8B5CF6),
+                  onTap: () {
+                    _showHospitalSelectorForDigitalTwin(context, ref);
+                  },
+                ),
+
+                _ManagementCard(
                   title: 'System Analytics',
                   subtitle: 'View comprehensive system-wide analytics',
                   icon: Icons.analytics,
@@ -202,6 +215,69 @@ class AdminDashboardScreen extends ConsumerWidget {
       ),
     );
   }
+
+  void _showHospitalSelectorForDigitalTwin(BuildContext context, WidgetRef ref) {
+  final hospitalsAsync = ref.read(hospitalsStreamProvider);
+  
+  showDialog(
+    context: context,
+    builder: (context) => AlertDialog(
+      title: const Text('Select Hospital'),
+      content: SizedBox(
+        width: double.maxFinite,
+        child: hospitalsAsync.when(
+          data: (hospitals) {
+            final hospitalsWithModels = hospitals
+                .where((h) => h.has3dModel)
+                .toList();
+            
+            if (hospitalsWithModels.isEmpty) {
+              return const Padding(
+                padding: EdgeInsets.all(24.0),
+                child: Center(
+                  child: Text('No hospitals with 3D models yet'),
+                ),
+              );
+            }
+            
+            return ListView.builder(
+              shrinkWrap: true,
+              itemCount: hospitalsWithModels.length,
+              itemBuilder: (context, index) {
+                final hospital = hospitalsWithModels[index];
+                return ListTile(
+                  leading: const Icon(Icons.view_in_ar, color: AppColors.primary),
+                  title: Text(hospital.name),
+                  subtitle: Text('${hospital.modelMetadata?.floors ?? 0} floors'),
+                  trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+                  onTap: () {
+                    Navigator.pop(context);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => DigitalTwinScreen(
+                          hospitalId: hospital.id,
+                        ),
+                      ),
+                    );
+                  },
+                );
+              },
+            );
+          },
+          loading: () => const Center(child: CircularProgressIndicator()),
+          error: (error, _) => Text('Error: $error'),
+        ),
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(context),
+          child: const Text('Cancel'),
+        ),
+      ],
+    ),
+  );
+}
 }
 
 // Stat Card Widget
@@ -335,6 +411,26 @@ class _ManagementCard extends StatelessWidget {
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+// A simple placeholder DigitalTwinScreen so the referenced screen exists.
+// Replace this with the real implementation when available.
+class DigitalTwinScreen extends StatelessWidget {
+  final String hospitalId;
+
+  const DigitalTwinScreen({Key? key, required this.hospitalId}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Digital Twin Viewer'),
+      ),
+      body: Center(
+        child: Text('Digital Twin for hospital: $hospitalId'),
       ),
     );
   }

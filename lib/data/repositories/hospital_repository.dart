@@ -75,6 +75,35 @@ class HospitalRepository {
     }
   }
 
+  // Stream for a single hospital (live updates)
+  Stream<HospitalModel?> getHospitalStream(String id) {
+    return _firestore.collection(_collection).doc(id).snapshots().map((doc) {
+      if (!doc.exists) return null;
+      return HospitalModel.fromFirestore(doc);
+    });
+  }
+
+  // Update 3D model metadata and URLs for the hospital
+  Future<void> update3DModel({
+    required String hospitalId,
+    required String model3dUrl,
+    String? thumbnailUrl,
+    ModelMetadata? metadata,
+  }) async {
+    try {
+      final payload = {
+        'model3dUrl': model3dUrl,
+        if (thumbnailUrl != null) 'model3dThumbnail': thumbnailUrl,
+        if (metadata != null) 'modelMetadata': metadata.toMap(),
+        'updatedAt': FieldValue.serverTimestamp(),
+      };
+
+      await _firestore.collection(_collection).doc(hospitalId).update(payload);
+    } catch (e) {
+      throw Exception('Error updating 3D model: $e');
+    }
+  }
+
   // Get hospitals by staff member
   Stream<List<HospitalModel>> getHospitalsByStaffId(String staffId) {
     return _firestore

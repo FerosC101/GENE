@@ -30,6 +30,13 @@ dependencies:
   flutter_markdown: ^0.7.4+1
   url_launcher: ^6.3.2
 
+  # 3D Rendering
+  flutter_cube: ^0.1.1
+  model_viewer_plus: ^1.7.2
+
+  # File Handling
+  path_provider: ^2.1.4
+
   # Utilities
   intl: ^0.20.2
   uuid: ^4.5.1
@@ -38,6 +45,7 @@ dependencies:
   # Location
   geolocator: ^14.0.2
   geocoding: ^4.0.0
+  file_picker: ^10.3.3
 
   
 

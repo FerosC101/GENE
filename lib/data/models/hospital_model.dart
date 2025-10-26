@@ -9,7 +9,7 @@ class HospitalModel {
   final double longitude;
   final String phone;
   final String email;
-  final String type; // public, private, specialty
+  final String type;
   final List<String> services;
   final List<String> specialties;
   final String imageUrl;
@@ -17,6 +17,11 @@ class HospitalModel {
   final DateTime? createdAt;
   final DateTime? updatedAt;
   final List<String>? staffIds;
+  
+  // NEW: 3D Model Fields
+  final String? model3dUrl;
+  final String? model3dThumbnail;
+  final ModelMetadata? modelMetadata;
   
   HospitalModel({
     required this.id,
@@ -34,6 +39,9 @@ class HospitalModel {
     this.createdAt,
     this.updatedAt,
     this.staffIds,
+    this.model3dUrl,
+    this.model3dThumbnail,
+    this.modelMetadata,
   });
   
   factory HospitalModel.fromFirestore(DocumentSnapshot doc) {
@@ -55,6 +63,11 @@ class HospitalModel {
       createdAt: (data['createdAt'] as Timestamp?)?.toDate(),
       updatedAt: (data['updatedAt'] as Timestamp?)?.toDate(),
       staffIds: data['staffIds'] != null ? List<String>.from(data['staffIds']) : null,
+      model3dUrl: data['model3dUrl'],
+      model3dThumbnail: data['model3dThumbnail'],
+      modelMetadata: data['modelMetadata'] != null 
+          ? ModelMetadata.fromMap(data['modelMetadata'] as Map<String, dynamic>)
+          : null,
     );
   }
   
@@ -72,6 +85,9 @@ class HospitalModel {
       'imageUrl': imageUrl,
       'status': status.toMap(),
       if (staffIds != null) 'staffIds': staffIds,
+      if (model3dUrl != null) 'model3dUrl': model3dUrl,
+      if (model3dThumbnail != null) 'model3dThumbnail': model3dThumbnail,
+      if (modelMetadata != null) 'modelMetadata': modelMetadata!.toMap(),
     };
   }
 
@@ -91,6 +107,9 @@ class HospitalModel {
     DateTime? createdAt,
     DateTime? updatedAt,
     List<String>? staffIds,
+    String? model3dUrl,
+    String? model3dThumbnail,
+    ModelMetadata? modelMetadata,
   }) {
     return HospitalModel(
       id: id ?? this.id,
@@ -108,7 +127,91 @@ class HospitalModel {
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
       staffIds: staffIds ?? this.staffIds,
+      model3dUrl: model3dUrl ?? this.model3dUrl,
+      model3dThumbnail: model3dThumbnail ?? this.model3dThumbnail,
+      modelMetadata: modelMetadata ?? this.modelMetadata,
     );
+  }
+  
+  bool get has3dModel => model3dUrl != null && model3dUrl!.isNotEmpty;
+}
+
+// Model Metadata Class
+class ModelMetadata {
+  final int floors;
+  final double modelSizeBytes;
+  final String modelFormat;
+  final DateTime uploadedAt;
+  final List<DepartmentInfo> departments;
+  
+  ModelMetadata({
+    required this.floors,
+    required this.modelSizeBytes,
+    required this.modelFormat,
+    required this.uploadedAt,
+    required this.departments,
+  });
+  
+  factory ModelMetadata.fromMap(Map<String, dynamic> map) {
+    return ModelMetadata(
+      floors: map['floors'] ?? 1,
+      modelSizeBytes: (map['modelSizeBytes'] ?? 0.0).toDouble(),
+      modelFormat: map['modelFormat'] ?? 'glb',
+      uploadedAt: (map['uploadedAt'] as Timestamp).toDate(),
+      departments: (map['departments'] as List<dynamic>?)
+          ?.map((d) => DepartmentInfo.fromMap(d as Map<String, dynamic>))
+          .toList() ?? [],
+    );
+  }
+  
+  Map<String, dynamic> toMap() {
+    return {
+      'floors': floors,
+      'modelSizeBytes': modelSizeBytes,
+      'modelFormat': modelFormat,
+      'uploadedAt': Timestamp.fromDate(uploadedAt),
+      'departments': departments.map((d) => d.toMap()).toList(),
+    };
+  }
+  
+  String get fileSizeFormatted {
+    if (modelSizeBytes < 1024) return '${modelSizeBytes.toStringAsFixed(0)} B';
+    if (modelSizeBytes < 1024 * 1024) {
+      return '${(modelSizeBytes / 1024).toStringAsFixed(2)} KB';
+    }
+    return '${(modelSizeBytes / (1024 * 1024)).toStringAsFixed(2)} MB';
+  }
+}
+
+class DepartmentInfo {
+  final String name;
+  final String type; // 'ICU', 'ER', 'Ward'
+  final int floor;
+  final int bedCount;
+  
+  DepartmentInfo({
+    required this.name,
+    required this.type,
+    required this.floor,
+    required this.bedCount,
+  });
+  
+  factory DepartmentInfo.fromMap(Map<String, dynamic> map) {
+    return DepartmentInfo(
+      name: map['name'] ?? '',
+      type: map['type'] ?? '',
+      floor: map['floor'] ?? 0,
+      bedCount: map['bedCount'] ?? 0,
+    );
+  }
+  
+  Map<String, dynamic> toMap() {
+    return {
+      'name': name,
+      'type': type,
+      'floor': floor,
+      'bedCount': bedCount,
+    };
   }
 }
 
