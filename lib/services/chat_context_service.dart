@@ -47,7 +47,7 @@ class ChatContextService {
         if (status == null) continue;
 
         // Helper to normalize numeric fields which may be stored as int/double/string
-        int _toInt(dynamic v) {
+        int toInt(dynamic v) {
           if (v == null) return 0;
           if (v is int) return v;
           if (v is double) return v.toInt();
@@ -62,12 +62,12 @@ class ChatContextService {
           return 0;
         }
 
-        final icuTotal = _toInt(status['icuTotal']);
-        final icuOccupied = _toInt(status['icuOccupied']);
-        final erTotal = _toInt(status['erTotal']);
-        final erOccupied = _toInt(status['erOccupied']);
-        final wardTotal = _toInt(status['wardTotal']);
-        final wardOccupied = _toInt(status['wardOccupied']);
+        final icuTotal = toInt(status['icuTotal']);
+        final icuOccupied = toInt(status['icuOccupied']);
+        final erTotal = toInt(status['erTotal']);
+        final erOccupied = toInt(status['erOccupied']);
+        final wardTotal = toInt(status['wardTotal']);
+        final wardOccupied = toInt(status['wardOccupied']);
 
         final icuAvailable = icuTotal - icuOccupied;
         final erAvailable = erTotal - erOccupied;

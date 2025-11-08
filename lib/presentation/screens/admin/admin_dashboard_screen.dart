@@ -7,7 +7,6 @@ import 'package:smart_hospital_app/core/constants/app_colors.dart';
 import 'package:smart_hospital_app/presentation/providers/auth_provider.dart';
 import 'package:smart_hospital_app/presentation/providers/hospital_provider.dart';
 import 'package:smart_hospital_app/presentation/screens/auth/welcome_screen.dart';
-import 'package:smart_hospital_app/presentation/screens/staff/hospital_management_screen.dart' hide HospitalManagementScreen;
 import 'package:smart_hospital_app/presentation/screens/staff/doctor_management_screen.dart';
 import 'package:smart_hospital_app/presentation/screens/admin/staff_management_screen.dart';
 import 'package:smart_hospital_app/presentation/screens/admin/hospital_management_screen.dart';

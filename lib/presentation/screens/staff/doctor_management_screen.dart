@@ -60,7 +60,7 @@ class _DoctorManagementScreenState extends ConsumerState<DoctorManagementScreen>
                 }
 
                 return DropdownButtonFormField<String>(
-                  value: _selectedHospitalId,
+                  initialValue: _selectedHospitalId,
                   decoration: const InputDecoration(
                     labelText: 'Select Hospital',
                     prefixIcon: Icon(Icons.local_hospital),

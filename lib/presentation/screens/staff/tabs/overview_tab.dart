@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:smart_hospital_app/core/constants/app_colors.dart';
 import 'package:smart_hospital_app/presentation/providers/patient_provider.dart';
 import 'package:smart_hospital_app/presentation/providers/queue_provider.dart';
-import 'package:smart_hospital_app/presentation/providers/hospital_provider.dart';
 import 'package:smart_hospital_app/presentation/screens/staff/widgets/quick_action_card.dart';
 import 'package:smart_hospital_app/presentation/screens/staff/widgets/patient_admission_dialog.dart';
 import 'package:smart_hospital_app/presentation/screens/staff/widgets/department_status_card.dart';

@@ -370,7 +370,7 @@ class _HospitalFormDialogState extends ConsumerState<HospitalFormDialog> {
                       const SizedBox(height: 16),
 
                       DropdownButtonFormField<String>(
-                        value: _selectedType,
+                        initialValue: _selectedType,
                         decoration: const InputDecoration(
                           labelText: 'Hospital Type',
                           prefixIcon: Icon(Icons.category),
@@ -493,7 +493,7 @@ class _HospitalFormDialogState extends ConsumerState<HospitalFormDialog> {
                         onChanged: (value) {
                           setState(() => _isOperational = value);
                         },
-                        activeColor: AppColors.success,
+                        activeThumbColor: AppColors.success,
                       ),
                     ],
                   ),

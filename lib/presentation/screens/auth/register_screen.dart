@@ -76,6 +76,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     }
   }
 
+  @override
   void dispose() {
     _fullNameController.dispose();
     _emailController.dispose();
@@ -562,7 +563,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                   ),
                   const SizedBox(height: 8),
                   DropdownButtonFormField<String>(
-                    value: _selectedHospitalId,
+                    initialValue: _selectedHospitalId,
                     decoration: InputDecoration(
                       hintText: 'Choose your hospital',
                       prefixIcon: const Icon(Icons.local_hospital),

@@ -59,8 +59,9 @@ class QueueRepository {
           final data = d.data();
           final raw = data['queueNumber'];
           int val = 0;
-          if (raw is int) val = raw;
-          else if (raw is String) val = int.tryParse(raw) ?? 0;
+          if (raw is int) {
+            val = raw;
+          } else if (raw is String) val = int.tryParse(raw) ?? 0;
           if (val > maxNumber) maxNumber = val;
         }
         nextNumber = maxNumber + 1;

@@ -42,8 +42,8 @@ class _HospitalFormDialogState extends ConsumerState<HospitalFormDialog> {
   // 3D Model Upload State
   PlatformFile? _selected3DModel;
   String? _selectedModelFileName;
-  bool _isUploadingModel = false;
-  double _uploadProgress = 0.0;
+  final bool _isUploadingModel = false;
+  final double _uploadProgress = 0.0;
   
   final List<String> _hospitalTypes = ['public', 'private', 'specialty'];
   final List<String> _availableServices = [
@@ -334,7 +334,7 @@ class _HospitalFormDialogState extends ConsumerState<HospitalFormDialog> {
                       const SizedBox(height: 16),
                       
                       DropdownButtonFormField<String>(
-                        value: _selectedType,
+                        initialValue: _selectedType,
                         decoration: const InputDecoration(
                           labelText: 'Hospital Type',
                           prefixIcon: Icon(Icons.category),

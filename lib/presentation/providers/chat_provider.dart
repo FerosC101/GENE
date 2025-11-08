@@ -106,7 +106,7 @@ class ChatController extends StateNotifier<ChatState> {
 
     // Save to Firebase
     if (_userId != null) {
-      await _contextService.saveChatMessage(_userId!, message, 'user');
+      await _contextService.saveChatMessage(_userId, message, 'user');
     }
 
     try {
@@ -145,7 +145,7 @@ class ChatController extends StateNotifier<ChatState> {
 
       // Save AI response to Firebase
       if (_userId != null) {
-        await _contextService.saveChatMessage(_userId!, response, 'ai');
+        await _contextService.saveChatMessage(_userId, response, 'ai');
       }
     } catch (e) {
       print('❌ Error in sendMessage: $e');

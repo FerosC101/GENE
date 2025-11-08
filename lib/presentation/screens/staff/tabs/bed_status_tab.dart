@@ -1,8 +1,6 @@
 // lib/presentation/screens/staff/tabs/bed_status_tab.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:smart_hospital_app/core/constants/app_colors.dart';
-import 'package:smart_hospital_app/data/models/patient_model.dart';
 import 'package:smart_hospital_app/presentation/providers/patient_provider.dart';
 import 'package:smart_hospital_app/presentation/screens/staff/widgets/bed_card.dart';
 
@@ -50,7 +48,7 @@ class _BedStatusTabState extends ConsumerState<BedStatusTab> {
                 children: [
                   Expanded(
                     child: DropdownButtonFormField<String>(
-                      value: _selectedDepartment,
+                      initialValue: _selectedDepartment,
                       decoration: const InputDecoration(
                         labelText: 'Department',
                         isDense: true,
@@ -67,7 +65,7 @@ class _BedStatusTabState extends ConsumerState<BedStatusTab> {
                   const SizedBox(width: 12),
                   Expanded(
                     child: DropdownButtonFormField<String>(
-                      value: _selectedStatus,
+                      initialValue: _selectedStatus,
                       decoration: const InputDecoration(
                         labelText: 'Status',
                         isDense: true,

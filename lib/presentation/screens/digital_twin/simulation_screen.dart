@@ -594,7 +594,7 @@ Provide exactly 4 actionable recommendations to handle this situation. Each reco
                   ],
                 ),
               );
-            }).toList(),
+            }),
           ],
         ),
       ),

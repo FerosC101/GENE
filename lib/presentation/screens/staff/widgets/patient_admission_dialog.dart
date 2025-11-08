@@ -167,7 +167,7 @@ class _PatientAdmissionDialogState extends ConsumerState<PatientAdmissionDialog>
                           const SizedBox(width: 16),
                           Expanded(
                             child: DropdownButtonFormField<String>(
-                              value: _selectedGender,
+                              initialValue: _selectedGender,
                               decoration: const InputDecoration(
                                 labelText: 'Gender',
                                 prefixIcon: Icon(Icons.wc),
@@ -187,7 +187,7 @@ class _PatientAdmissionDialogState extends ConsumerState<PatientAdmissionDialog>
                       ),
                       const SizedBox(height: 16),
                       DropdownButtonFormField<String>(
-                        value: _selectedBloodType,
+                        initialValue: _selectedBloodType,
                         decoration: const InputDecoration(
                           labelText: 'Blood Type (Optional)',
                           prefixIcon: Icon(Icons.bloodtype),
@@ -219,7 +219,7 @@ class _PatientAdmissionDialogState extends ConsumerState<PatientAdmissionDialog>
                         children: [
                           Expanded(
                             child: DropdownButtonFormField<String>(
-                              value: _selectedDepartment,
+                              initialValue: _selectedDepartment,
                               decoration: const InputDecoration(
                                 labelText: 'Department',
                                 prefixIcon: Icon(Icons.apartment),

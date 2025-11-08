@@ -1,6 +1,5 @@
 // lib/services/gemini_ai_service.dart
 import 'package:google_generative_ai/google_generative_ai.dart';
-import 'package:smart_hospital_app/data/models/chat_message_model.dart';
 
 class GeminiAIService {
   static const String apiKey = 'AIzaSyBgePDAyyEv2c4OR-iMxY1P_ge6QDOsC8s';

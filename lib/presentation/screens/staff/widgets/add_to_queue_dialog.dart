@@ -159,7 +159,7 @@ class _AddToQueueDialogState extends ConsumerState<AddToQueueDialog> {
                           const SizedBox(width: 16),
                           Expanded(
                             child: DropdownButtonFormField<String>(
-                              value: _selectedGender,
+                              initialValue: _selectedGender,
                               decoration: const InputDecoration(
                                 labelText: 'Gender',
                                 prefixIcon: Icon(Icons.wc),
@@ -194,7 +194,7 @@ class _AddToQueueDialogState extends ConsumerState<AddToQueueDialog> {
                       ),
                       const SizedBox(height: 16),
                       DropdownButtonFormField<String>(
-                        value: _selectedDepartment,
+                        initialValue: _selectedDepartment,
                         decoration: const InputDecoration(
                           labelText: 'Department',
                           prefixIcon: Icon(Icons.apartment),
@@ -233,7 +233,7 @@ class _AddToQueueDialogState extends ConsumerState<AddToQueueDialog> {
                             setState(() => _selectedTriage = value!);
                           },
                         );
-                      }).toList(),
+                      }),
                     ],
                   ),
                 ),
