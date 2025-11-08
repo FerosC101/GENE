@@ -1,0 +1,8 @@
+# Android Local Properties Template
+# Copy this file to local.properties and add your actual API keys
+
+sdk.dir=C:\\Users\\YourUsername\\AppData\\Local\\Android\\sdk
+flutter.sdk=C:\\Users\\YourUsername\\flutter
+
+# Google Maps API Key
+GOOGLE_MAPS_API_KEY=your_google_maps_api_key_here

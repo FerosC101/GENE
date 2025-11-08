@@ -2,7 +2,7 @@
 
 ## API Keys Configuration
 
-This project uses environment variables to secure API keys. Follow these steps to set up your development environment:
+This project uses environment variables and configuration files to secure API keys. **NO API keys are stored in the repository.**
 
 ### 1. Create `.env` file
 
@@ -12,7 +12,7 @@ Copy the `.env.example` file to create your own `.env` file:
 cp .env.example .env
 ```
 
-### 2. Add Your API Keys
+### 2. Add Your API Keys to `.env`
 
 Edit the `.env` file and add your actual API keys:
 
@@ -20,6 +20,45 @@ Edit the `.env` file and add your actual API keys:
 GOOGLE_MAPS_API_KEY=your_actual_google_maps_api_key
 GEMINI_API_KEY=your_actual_gemini_api_key
 ```
+
+### 3. Configure Android (Google Maps)
+
+Edit `android/local.properties` and add your Google Maps API key:
+
+```properties
+GOOGLE_MAPS_API_KEY=your_actual_google_maps_api_key
+```
+
+Or copy from the example:
+```bash
+cp android/local.properties.example android/local.properties
+```
+
+### 4. Configure Web (Google Maps)
+
+Edit `web/index.html` and replace `YOUR_API_KEY_HERE` with your actual API key:
+
+```html
+<script src="https://maps.googleapis.com/maps/api/js?key=YOUR_ACTUAL_API_KEY"></script>
+```
+
+### 5. Configure Firebase
+
+#### Android
+Copy the example file and add your Firebase configuration:
+```bash
+cp android/app/google-services.json.example android/app/google-services.json
+```
+
+Then download your actual `google-services.json` from Firebase Console and replace the example file.
+
+#### iOS
+Copy the example file and add your Firebase configuration:
+```bash
+cp ios/Runner/GoogleService-Info.plist.example ios/Runner/GoogleService-Info.plist
+```
+
+Then download your actual `GoogleService-Info.plist` from Firebase Console and replace the example file.
 
 ### 3. Get API Keys
 

@@ -28,18 +28,18 @@
 
 ### In `.env` file (SECURED - Not committed to Git):
 ```properties
-GEMINI_API_KEY=AIzaSyBgePDAyyEv2c4OR-iMxY1P_ge6QDOsC8s
-GOOGLE_MAPS_API_KEY=AIzaSyDsqyQ_IlhJfjzGN6YXNONMq3e0c87RqEk
+GEMINI_API_KEY=your_gemini_api_key_here
+GOOGLE_MAPS_API_KEY=your_google_maps_api_key_here
 ```
 
 ### Still Hardcoded (Need Manual Update):
 1. **Android**: `android/app/src/main/AndroidManifest.xml` (line 18)
-   - Currently: `AIzaSyDsqyQ_IlhJfjzGN6YXNONMq3e0c87RqEk`
-   - ⚠️ For production, consider using build variants with different API keys
+   - Uses placeholder: `${GOOGLE_MAPS_API_KEY}`
+   - ⚠️ Configure using android/local.properties or environment variables
 
 2. **Web**: `web/index.html` (line 20)
-   - Currently: `AIzaSyDsqyQ_IlhJfjzGN6YXNONMq3e0c87RqEk`
-   - ⚠️ Must be updated manually for each environment
+   - Uses placeholder: `YOUR_API_KEY_HERE`
+   - ⚠️ Must be updated manually before deploying
 
 3. **Firebase Config**: `lib/firebase_options.dart`
    - These are Firebase API keys (different from Maps/Gemini)
