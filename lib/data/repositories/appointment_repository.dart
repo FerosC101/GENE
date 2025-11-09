@@ -1,6 +1,7 @@
 // lib/data/repositories/appointment_repository.dart
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:smart_hospital_app/data/models/models.dart';
+import 'package:smart_hospital_app/data/models/appointment_model.dart';
+import 'package:smart_hospital_app/data/models/appointment_status.dart';
 
 class AppointmentRepository {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;

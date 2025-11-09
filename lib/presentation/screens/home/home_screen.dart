@@ -8,8 +8,7 @@ import 'package:smart_hospital_app/presentation/screens/auth/welcome_screen.dart
 import 'package:smart_hospital_app/presentation/screens/ai/ai_chat_screen.dart';
 import 'package:smart_hospital_app/presentation/screens/patient/hospital_list_screen.dart';
 import 'package:smart_hospital_app/presentation/screens/patient/hospital_detail_screen.dart';
-// TEMPORARILY COMMENTED OUT DUE TO COMPILATION ISSUE - SEE COMPILATION_ISSUE.md
-// import 'package:smart_hospital_app/presentation/screens/patient/patient_appointments_screen.dart';
+import 'package:smart_hospital_app/presentation/screens/patient/patient_appointments_screen.dart';
 import 'package:smart_hospital_app/presentation/screens/digital_twin/digital_twin_screen.dart';
 import 'package:smart_hospital_app/presentation/screens/map/hospital_map_screen.dart';
 import 'package:model_viewer_plus/model_viewer_plus.dart';
@@ -257,8 +256,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         ),
                         const SizedBox(height: 16),
 
-                        // TEMPORARILY COMMENTED OUT - SEE COMPILATION_ISSUE.md
-                        /*
                         // My Appointments Button (for patients)
                         InkWell(
                           onTap: () {
@@ -331,7 +328,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                             ),
                           ),
                         ),
-                        */
                         const SizedBox(height: 24),
 
                         // Real-time Statistics from Firebase

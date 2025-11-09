@@ -11,10 +11,7 @@ import 'package:smart_hospital_app/presentation/screens/auth/welcome_screen.dart
 import 'package:smart_hospital_app/presentation/screens/home/home_screen.dart';
 import 'package:smart_hospital_app/presentation/screens/staff/staff_dashboard_screen.dart';
 import 'package:smart_hospital_app/presentation/screens/admin/admin_dashboard_screen.dart';
-import 'package:smart_hospital_app/presentation/screens/doctor/doctor_dashboard_web_simple.dart';
-// FULL DOCTOR DASHBOARD COMMENTED OUT DUE TO WEB COMPILATION ISSUE - SEE COMPILATION_ISSUE.md
-// USE doctor_dashboard_screen.dart ON ANDROID/iOS FOR FULL APPOINTMENT FEATURES
-// import 'package:smart_hospital_app/presentation/screens/doctor/doctor_dashboard_screen.dart';
+import 'package:smart_hospital_app/presentation/screens/doctor/doctor_dashboard_screen.dart';
 import 'package:smart_hospital_app/presentation/screens/splash/splash_screen.dart';
 
 void main() async {
@@ -102,10 +99,8 @@ class AuthWrapper extends ConsumerWidget {
                 return const StaffDashboardScreen();
                 
               case UserType.doctor:
-                print('👨‍⚕️ Routing to DoctorDashboardWebSimple');
-                // USING SIMPLIFIED DASHBOARD FOR WEB - SEE COMPILATION_ISSUE.md
-                // USE doctor_dashboard_screen.dart ON ANDROID/iOS FOR FULL FEATURES
-                return const DoctorDashboardWebSimple();
+                print('👨‍⚕️ Routing to DoctorDashboardScreen');
+                return const DoctorDashboardScreen();
                 
               case UserType.patient:
                 print('👤 Routing to HomeScreen (Patient)');

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:smart_hospital_app/core/constants/app_colors.dart';
 import 'package:smart_hospital_app/data/models/appointment_model.dart';
+import 'package:smart_hospital_app/data/models/appointment_status.dart';
 import 'package:smart_hospital_app/presentation/providers/appointment_provider.dart';
 import 'package:intl/intl.dart';
 
@@ -41,22 +42,12 @@ class _AppointmentDetailScreenState extends ConsumerState<AppointmentDetailScree
   Widget build(BuildContext context) {
     final appointment = widget.appointment;
 
-    Color statusColor;
-    switch (appointment.status) {
-      case AppointmentStatus.pending:
-        statusColor = AppColors.warning;
-        break;
-      case AppointmentStatus.confirmed:
-        statusColor = AppColors.info;
-        break;
-      case AppointmentStatus.completed:
-        statusColor = AppColors.success;
-        break;
-      case AppointmentStatus.cancelled:
-      case AppointmentStatus.noShow:
-        statusColor = AppColors.error;
-        break;
-    }
+    final statusColor = switch (appointment.status) {
+      AppointmentStatus.pending => AppColors.warning,
+      AppointmentStatus.confirmed => AppColors.info,
+      AppointmentStatus.completed => AppColors.success,
+      AppointmentStatus.cancelled || AppointmentStatus.noShow => AppColors.error,
+    };
 
     return Scaffold(
       appBar: AppBar(

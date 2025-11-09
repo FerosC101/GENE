@@ -1,6 +1,6 @@
 // lib/data/repositories/schedule_repository.dart
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:smart_hospital_app/data/models/models.dart';
+import 'package:smart_hospital_app/data/models/doctor_schedule_model.dart';
 
 class ScheduleRepository {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
