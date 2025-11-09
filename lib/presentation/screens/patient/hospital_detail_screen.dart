@@ -4,6 +4,8 @@
 import 'package:flutter/material.dart';
 import 'package:smart_hospital_app/core/constants/app_colors.dart';
 import 'package:smart_hospital_app/data/models/hospital_model.dart';
+// TEMPORARILY COMMENTED OUT DUE TO COMPILATION ISSUE - SEE COMPILATION_ISSUE.md
+// import 'package:smart_hospital_app/presentation/screens/patient/book_appointment_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class HospitalDetailScreen extends StatelessWidget {
@@ -323,6 +325,28 @@ class HospitalDetailScreen extends StatelessWidget {
                   ],
 
                   // Action Buttons
+                  // TEMPORARILY COMMENTED OUT - SEE COMPILATION_ISSUE.md
+                  /*
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton.icon(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => BookAppointmentScreen(hospital: hospital),
+                          ),
+                        );
+                      },
+                      icon: const Icon(Icons.calendar_today),
+                      label: const Text('Book Appointment'),
+                      style: ElevatedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(vertical: 16),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  */
                   Row(
                     children: [
                       Expanded(
@@ -337,6 +361,7 @@ class HospitalDetailScreen extends StatelessWidget {
                           label: const Text('Call Now'),
                           style: ElevatedButton.styleFrom(
                             padding: const EdgeInsets.symmetric(vertical: 16),
+                            backgroundColor: AppColors.success,
                           ),
                         ),
                       ),

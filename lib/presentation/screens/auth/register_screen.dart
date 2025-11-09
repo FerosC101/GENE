@@ -114,6 +114,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
           additionalData = {
             'specialty': _specialtyController.text.trim(),
             'licenseNumber': _licenseController.text.trim(),
+            'hospitalId': _selectedHospitalId,
           };
           break;
         case UserType.hospitalStaff:
@@ -499,6 +500,81 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     switch (widget.userType) {
       case UserType.doctor:
         return [
+          StreamBuilder<QuerySnapshot>(
+            stream: FirebaseFirestore.instance.collection('hospitals').snapshots(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(child: CircularProgressIndicator());
+              }
+
+              if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                return Column(
+                  children: [
+                    const Text(
+                      'No hospitals available. Please contact admin.',
+                      style: TextStyle(color: AppColors.error),
+                    ),
+                    const SizedBox(height: 16),
+                  ],
+                );
+              }
+
+              final hospitals = snapshot.data!.docs;
+
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'Select Hospital',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.textPrimary,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  DropdownButtonFormField<String>(
+                    value: _selectedHospitalId,
+                    decoration: InputDecoration(
+                      hintText: 'Choose your hospital',
+                      prefixIcon: const Icon(Icons.local_hospital),
+                      filled: true,
+                      fillColor: Colors.white,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: BorderSide(color: Colors.grey.shade300),
+                      ),
+                    ),
+                    items: hospitals.map((doc) {
+                      final data = (doc.data() as Map<String, dynamic>?) ??
+                          <String, dynamic>{};
+                      return DropdownMenuItem(
+                        value: doc.id,
+                        child: Text(data['name'] ?? 'Unknown Hospital'),
+                      );
+                    }).toList(),
+                    onChanged: (value) {
+                      setState(() {
+                        _selectedHospitalId = value;
+                        final hospitalDoc = hospitals.firstWhere(
+                            (doc) => doc.id == value);
+                        final data = (hospitalDoc.data() as Map<String, dynamic>?) ??
+                            <String, dynamic>{};
+                        _selectedHospitalName = data['name'] as String?;
+                      });
+                    },
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please select a hospital';
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 16),
+                ],
+              );
+            },
+          ),
           AuthTextField(
             controller: _specialtyController,
             label: 'Specialty',

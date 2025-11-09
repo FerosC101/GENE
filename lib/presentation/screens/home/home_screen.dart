@@ -8,6 +8,8 @@ import 'package:smart_hospital_app/presentation/screens/auth/welcome_screen.dart
 import 'package:smart_hospital_app/presentation/screens/ai/ai_chat_screen.dart';
 import 'package:smart_hospital_app/presentation/screens/patient/hospital_list_screen.dart';
 import 'package:smart_hospital_app/presentation/screens/patient/hospital_detail_screen.dart';
+// TEMPORARILY COMMENTED OUT DUE TO COMPILATION ISSUE - SEE COMPILATION_ISSUE.md
+// import 'package:smart_hospital_app/presentation/screens/patient/patient_appointments_screen.dart';
 import 'package:smart_hospital_app/presentation/screens/digital_twin/digital_twin_screen.dart';
 import 'package:smart_hospital_app/presentation/screens/map/hospital_map_screen.dart';
 import 'package:model_viewer_plus/model_viewer_plus.dart';
@@ -253,6 +255,83 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                             ),
                           ),
                         ),
+                        const SizedBox(height: 16),
+
+                        // TEMPORARILY COMMENTED OUT - SEE COMPILATION_ISSUE.md
+                        /*
+                        // My Appointments Button (for patients)
+                        InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const PatientAppointmentsScreen(),
+                              ),
+                            );
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.all(20),
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                colors: [AppColors.primary, AppColors.primary.withOpacity(0.8)],
+                              ),
+                              borderRadius: BorderRadius.circular(16),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: AppColors.primary.withOpacity(0.3),
+                                  blurRadius: 12,
+                                  offset: const Offset(0, 4),
+                                ),
+                              ],
+                            ),
+                            child: Row(
+                              children: [
+                                Container(
+                                  padding: const EdgeInsets.all(12),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white.withOpacity(0.2),
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  child: const Icon(
+                                    Icons.calendar_month,
+                                    color: Colors.white,
+                                    size: 28,
+                                  ),
+                                ),
+                                const SizedBox(width: 16),
+                                const Expanded(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'My Appointments',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 16,
+                                        ),
+                                      ),
+                                      SizedBox(height: 4),
+                                      Text(
+                                        'View and manage your appointments',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 13,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                const Icon(
+                                  Icons.arrow_forward_ios,
+                                  color: Colors.white,
+                                  size: 20,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        */
                         const SizedBox(height: 24),
 
                         // Real-time Statistics from Firebase
