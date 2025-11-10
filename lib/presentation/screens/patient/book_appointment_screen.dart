@@ -7,7 +7,6 @@ import 'package:smart_hospital_app/data/models/appointment_status.dart';
 import 'package:smart_hospital_app/data/models/appointment_type.dart';
 import 'package:smart_hospital_app/data/models/hospital_model.dart';
 import 'package:smart_hospital_app/data/models/user_model.dart';
-import 'package:smart_hospital_app/data/models/doctor_schedule_model.dart';
 import 'package:smart_hospital_app/presentation/providers/user_provider.dart';
 import 'package:smart_hospital_app/presentation/providers/schedule_provider.dart';
 import 'package:smart_hospital_app/presentation/providers/appointment_provider.dart';

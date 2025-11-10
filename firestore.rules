@@ -1,0 +1,74 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Helper function to check if user is authenticated
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    // Helper function to check if user owns the document
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+    
+    // Users collection
+    match /users/{userId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated();
+      allow update, delete: if isOwner(userId);
+    }
+    
+    // Hospitals collection
+    match /hospitals/{hospitalId} {
+      allow read: if isAuthenticated();
+      allow write: if isAuthenticated(); // In production, restrict to admin only
+    }
+    
+    // Appointments collection
+    match /appointments/{appointmentId} {
+      allow read: if isAuthenticated() && (
+        resource.data.patientId == request.auth.uid ||
+        resource.data.doctorId == request.auth.uid
+      );
+      allow create: if isAuthenticated();
+      allow update: if isAuthenticated() && (
+        resource.data.patientId == request.auth.uid ||
+        resource.data.doctorId == request.auth.uid
+      );
+      allow delete: if isAuthenticated() && (
+        resource.data.patientId == request.auth.uid ||
+        resource.data.doctorId == request.auth.uid
+      );
+    }
+    
+    // Doctor schedules collection
+    match /doctor_schedules/{scheduleId} {
+      allow read: if isAuthenticated();
+      allow write: if isAuthenticated() && (
+        resource.data.doctorId == request.auth.uid
+      );
+    }
+    
+    // Chat messages collection - FIXED PERMISSIONS
+    match /chat_history/{userId}/messages/{messageId} {
+      allow read, write: if isAuthenticated() && userId == request.auth.uid;
+    }
+    
+    // Chat history collection (parent document)
+    match /chat_history/{userId} {
+      allow read, write: if isAuthenticated() && userId == request.auth.uid;
+    }
+    
+    // Medical records (if needed)
+    match /medical_records/{recordId} {
+      allow read: if isAuthenticated() && (
+        resource.data.patientId == request.auth.uid ||
+        resource.data.doctorId == request.auth.uid
+      );
+      allow create: if isAuthenticated();
+      allow update: if isAuthenticated() && resource.data.doctorId == request.auth.uid;
+    }
+  }
+}

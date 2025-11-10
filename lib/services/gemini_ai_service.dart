@@ -6,7 +6,7 @@ class GeminiAIService {
   static String get apiKey => dotenv.env['GEMINI_API_KEY'] ?? '';
   
   late final GenerativeModel _model;
-  late final ChatSession _chat;
+  late ChatSession _chat; // Remove 'final' so it can be reassigned
 
   GeminiAIService() {
     _model = GenerativeModel(
@@ -37,7 +37,7 @@ class GeminiAIService {
 
   String _getSystemPrompt() {
     return '''
-You are an AI Medical Assistant for MedMap AI - Smart Hospital Management System in the Philippines.
+You are an AI Medical Assistant for Pulse - Smart Hospital Management System in the Philippines.
 
 STRICT RULES YOU MUST FOLLOW:
 1. ONLY answer questions related to:
@@ -78,7 +78,7 @@ RESPONSE FORMAT:
 - Use bullet points for lists of 3+ items
 - Be conversational but professional
 - NEVER mention that you're using provided data or context
-
+A
 CRITICAL: Base ALL hospital information on the context data provided. Do not invent hospital names, addresses, or availability.
 ''';
   }
@@ -127,8 +127,14 @@ CRITICAL: Base ALL hospital information on the context data provided. Do not inv
 
       print('📤 Sending to Gemini: $enhancedMessage');
 
+      // Add timeout to prevent infinite loading
       final response = await _chat.sendMessage(
         Content.text(enhancedMessage),
+      ).timeout(
+        const Duration(seconds: 30),
+        onTimeout: () {
+          throw Exception('Request timed out. Please check your API key and internet connection.');
+        },
       );
 
       final responseText = response.text ?? 'I apologize, but I could not generate a response. Please try again.';
@@ -138,6 +144,16 @@ CRITICAL: Base ALL hospital information on the context data provided. Do not inv
       return responseText;
     } catch (e) {
       print('❌ Gemini API Error: $e');
+      
+      // Provide more specific error messages
+      if (e.toString().contains('API key')) {
+        return 'AI Chat is currently unavailable. Please check your API key configuration.';
+      } else if (e.toString().contains('timeout') || e.toString().contains('timed out')) {
+        return 'The request took too long. Please check your internet connection and try again.';
+      } else if (e.toString().contains('leaked')) {
+        return 'Your API key needs to be replaced. Please get a new key from Google AI Studio.';
+      }
+      
       return 'I encountered an error processing your request. Please try again or rephrase your question.';
     }
   }

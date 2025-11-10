@@ -9,6 +9,7 @@ import 'package:smart_hospital_app/presentation/screens/ai/widgets/chat_bubble.d
 import 'package:smart_hospital_app/presentation/screens/ai/widgets/typing_indicator.dart';
 import 'package:smart_hospital_app/presentation/screens/ai/widgets/quick_action_button.dart';
 import 'package:smart_hospital_app/services/location_service.dart';
+import 'package:smart_hospital_app/presentation/screens/patient/hospital_list_screen.dart';
 
 class AIChatScreen extends ConsumerStatefulWidget {
   const AIChatScreen({super.key});
@@ -52,6 +53,19 @@ class _AIChatScreenState extends ConsumerState<AIChatScreen> {
   }
 
   void _sendQuickAction(String action) {
+    // Check if it's a booking action
+    if (action.toLowerCase().contains('book')) {
+      // Navigate to hospital list for booking
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const HospitalListScreen(),
+        ),
+      );
+      return;
+    }
+
+    // Otherwise, send as chat message
     ref.read(chatControllerProvider.notifier).sendQuickAction(action);
     setState(() => _showQuickActions = false);
     _scrollToBottom();
