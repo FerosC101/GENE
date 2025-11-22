@@ -1,7 +1,7 @@
 // lib/data/models/appointment_model.dart
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'appointment_status.dart';
-import 'appointment_type.dart';
+import 'appointment_status.dart' show AppointmentStatus;
+import 'appointment_type.dart' show AppointmentType;
 
 class AppointmentModel {
   final String id;

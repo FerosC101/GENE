@@ -11,6 +11,7 @@ import 'package:smart_hospital_app/presentation/screens/patient/hospital_detail_
 import 'package:smart_hospital_app/presentation/screens/patient/patient_appointments_screen.dart';
 import 'package:smart_hospital_app/presentation/screens/digital_twin/digital_twin_screen.dart';
 import 'package:smart_hospital_app/presentation/screens/map/hospital_map_screen.dart';
+import 'package:smart_hospital_app/presentation/screens/analytics/analytics_screen.dart';
 import 'package:model_viewer_plus/model_viewer_plus.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
@@ -519,10 +520,16 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                             _buildNavTab(
                               context,
                               Icons.bar_chart_outlined,
-                              'Data',
+                              'Analytics',
                               () {
-                                // TODO: Navigate to analytics
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const AnalyticsScreen(),
+                                  ),
+                                );
                               },
+                              badge: 'ML',
                             ),
                             _buildNavTab(
                               context,
@@ -701,6 +708,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     VoidCallback onTap, {
     bool isHighlighted = false,
     String? iconAsset,
+    String? badge,
   }) {
     return InkWell(
       onTap: onTap,
@@ -716,35 +724,60 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             color: isHighlighted ? AppColors.primary : Colors.grey.shade300,
           ),
         ),
-        child: Column(
+        child: Stack(
+          clipBehavior: Clip.none,
           children: [
-            iconAsset != null
-                ? Image.asset(
-                    iconAsset,
-                    width: 24,
-                    height: 24,
+            Column(
+              children: [
+                iconAsset != null
+                    ? Image.asset(
+                        iconAsset,
+                        width: 24,
+                        height: 24,
+                        color: isHighlighted ? AppColors.primary : AppColors.textSecondary,
+                        fit: BoxFit.contain,
+                        errorBuilder: (context, error, stackTrace) => Icon(
+                          icon,
+                          color: isHighlighted ? AppColors.primary : AppColors.textSecondary,
+                          size: 24,
+                        ),
+                      )
+                    : Icon(
+                        icon,
+                        color: isHighlighted ? AppColors.primary : AppColors.textSecondary,
+                        size: 24,
+                      ),
+                const SizedBox(height: 4),
+                Text(
+                  label,
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: isHighlighted ? FontWeight.w600 : FontWeight.normal,
                     color: isHighlighted ? AppColors.primary : AppColors.textSecondary,
-                    fit: BoxFit.contain,
-                    errorBuilder: (context, error, stackTrace) => Icon(
-                      icon,
-                      color: isHighlighted ? AppColors.primary : AppColors.textSecondary,
-                      size: 24,
-                    ),
-                  )
-                : Icon(
-                    icon,
-                    color: isHighlighted ? AppColors.primary : AppColors.textSecondary,
-                    size: 24,
                   ),
-            const SizedBox(height: 4),
-            Text(
-              label,
-              style: TextStyle(
-                fontSize: 12,
-                fontWeight: isHighlighted ? FontWeight.w600 : FontWeight.normal,
-                color: isHighlighted ? AppColors.primary : AppColors.textSecondary,
-              ),
+                ),
+              ],
             ),
+            if (badge != null)
+              Positioned(
+                right: -4,
+                top: -4,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                  decoration: BoxDecoration(
+                    color: AppColors.primary,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Text(
+                    badge,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 9,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
           ],
         ),
       ),

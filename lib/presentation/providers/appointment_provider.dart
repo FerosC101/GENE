@@ -1,7 +1,7 @@
 // lib/presentation/providers/appointment_provider.dart
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:smart_hospital_app/data/models/appointment_model.dart';
-import 'package:smart_hospital_app/data/models/appointment_status.dart';
+import 'package:smart_hospital_app/data/models/appointment_status.dart' show AppointmentStatus;
 import 'package:smart_hospital_app/data/repositories/appointment_repository.dart';
 
 // Repository provider
