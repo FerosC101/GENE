@@ -283,16 +283,16 @@ class AnalyticsScreen extends ConsumerWidget {
   }
 
   Widget _buildOccupancyChart(List hospitals) {
-    final icuOccupied = hospitals.fold<int>(0, (sum, h) => sum + h.status.icuOccupied);
-    final icuTotal = hospitals.fold<int>(0, (sum, h) => sum + h.status.icuTotal);
-    final erOccupied = hospitals.fold<int>(0, (sum, h) => sum + h.status.erOccupied);
-    final erTotal = hospitals.fold<int>(0, (sum, h) => sum + h.status.erTotal);
-    final wardOccupied = hospitals.fold<int>(0, (sum, h) => sum + h.status.wardOccupied);
-    final wardTotal = hospitals.fold<int>(0, (sum, h) => sum + h.status.wardTotal);
+    final icuOccupied = hospitals.fold<int>(0, (sum, h) => (sum + h.status.icuOccupied) as int);
+    final icuTotal = hospitals.fold<int>(0, (sum, h) => (sum + h.status.icuTotal) as int);
+    final erOccupied = hospitals.fold<int>(0, (sum, h) => (sum + h.status.erOccupied) as int);
+    final erTotal = hospitals.fold<int>(0, (sum, h) => (sum + h.status.erTotal) as int);
+    final wardOccupied = hospitals.fold<int>(0, (sum, h) => (sum + h.status.wardOccupied) as int);
+    final wardTotal = hospitals.fold<int>(0, (sum, h) => (sum + h.status.wardTotal) as int);
 
-    final icuRate = icuTotal > 0 ? (icuOccupied / icuTotal * 100) : 0;
-    final erRate = erTotal > 0 ? (erOccupied / erTotal * 100) : 0;
-    final wardRate = wardTotal > 0 ? (wardOccupied / wardTotal * 100) : 0;
+    final double icuRate = icuTotal > 0 ? (icuOccupied / icuTotal * 100) : 0.0;
+    final double erRate = erTotal > 0 ? (erOccupied / erTotal * 100) : 0.0;
+    final double wardRate = wardTotal > 0 ? (wardOccupied / wardTotal * 100) : 0.0;
 
     return Container(
       height: 250,
@@ -317,7 +317,7 @@ class AnalyticsScreen extends ConsumerWidget {
               x: 0,
               barRods: [
                 BarChartRodData(
-                  toY: icuRate,
+                  toY: icuRate.toDouble(),
                   color: AppColors.error,
                   width: 40,
                   borderRadius: const BorderRadius.vertical(top: Radius.circular(6)),
@@ -328,7 +328,7 @@ class AnalyticsScreen extends ConsumerWidget {
               x: 1,
               barRods: [
                 BarChartRodData(
-                  toY: erRate,
+                  toY: erRate.toDouble(),
                   color: AppColors.warning,
                   width: 40,
                   borderRadius: const BorderRadius.vertical(top: Radius.circular(6)),
@@ -339,7 +339,7 @@ class AnalyticsScreen extends ConsumerWidget {
               x: 2,
               barRods: [
                 BarChartRodData(
-                  toY: wardRate,
+                  toY: wardRate.toDouble(),
                   color: AppColors.info,
                   width: 40,
                   borderRadius: const BorderRadius.vertical(top: Radius.circular(6)),
@@ -486,12 +486,12 @@ class AnalyticsScreen extends ConsumerWidget {
   }
 
   Widget _buildDepartmentPerformance(List hospitals) {
-    final icuOccupied = hospitals.fold<int>(0, (sum, h) => sum + h.status.icuOccupied);
-    final icuTotal = hospitals.fold<int>(0, (sum, h) => sum + h.status.icuTotal);
-    final erOccupied = hospitals.fold<int>(0, (sum, h) => sum + h.status.erOccupied);
-    final erTotal = hospitals.fold<int>(0, (sum, h) => sum + h.status.erTotal);
-    final wardOccupied = hospitals.fold<int>(0, (sum, h) => sum + h.status.wardOccupied);
-    final wardTotal = hospitals.fold<int>(0, (sum, h) => sum + h.status.wardTotal);
+    final icuOccupied = hospitals.fold<int>(0, (sum, h) => (sum + h.status.icuOccupied) as int);
+    final icuTotal = hospitals.fold<int>(0, (sum, h) => (sum + h.status.icuTotal) as int);
+    final erOccupied = hospitals.fold<int>(0, (sum, h) => (sum + h.status.erOccupied) as int);
+    final erTotal = hospitals.fold<int>(0, (sum, h) => (sum + h.status.erTotal) as int);
+    final wardOccupied = hospitals.fold<int>(0, (sum, h) => (sum + h.status.wardOccupied) as int);
+    final wardTotal = hospitals.fold<int>(0, (sum, h) => (sum + h.status.wardTotal) as int);
 
     return Container(
       padding: const EdgeInsets.all(16),
@@ -696,11 +696,12 @@ class AnalyticsScreen extends ConsumerWidget {
     final insights = <Map<String, dynamic>>[];
     
     // Calculate system metrics
-    final totalOccupied = hospitals.fold<int>(0, (sum, h) => sum + h.status.totalOccupied);
-    final totalBeds = hospitals.fold<int>(0, (sum, h) => sum + h.status.totalBeds);
+    final totalOccupied = hospitals.fold<int>(0, (sum, h) => (sum + h.status.totalOccupied) as int);
+    final totalBeds = hospitals.fold<int>(0, (sum, h) => (sum + h.status.totalBeds) as int);
     final systemOccupancy = totalBeds > 0 ? totalOccupied / totalBeds : 0;
-    final avgWaitTime = hospitals.fold<int>(0, (sum, h) => sum + h.status.waitTimeMinutes) / 
-        hospitals.length;
+    final avgWaitTime = hospitals.isNotEmpty
+        ? hospitals.fold<int>(0, (sum, h) => (sum + h.status.waitTimeMinutes) as int) / hospitals.length
+        : 0.0;
 
     // Generate insights
     if (systemOccupancy > 0.85) {
@@ -722,8 +723,8 @@ class AnalyticsScreen extends ConsumerWidget {
     }
 
     // Check ICU capacity
-    final icuOccupied = hospitals.fold<int>(0, (sum, h) => sum + h.status.icuOccupied);
-    final icuTotal = hospitals.fold<int>(0, (sum, h) => sum + h.status.icuTotal);
+    final icuOccupied = hospitals.fold<int>(0, (sum, h) => (sum + h.status.icuOccupied) as int);
+    final icuTotal = hospitals.fold<int>(0, (sum, h) => (sum + h.status.icuTotal) as int);
     final icuRate = icuTotal > 0 ? icuOccupied / icuTotal : 0;
 
     if (icuRate > 0.85) {
