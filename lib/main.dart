@@ -17,8 +17,13 @@ import 'package:smart_hospital_app/presentation/screens/splash/splash_screen.dar
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   
-  // Load environment variables
-  await dotenv.load(fileName: ".env");
+  // Load environment variables (optional for web)
+  try {
+    await dotenv.load(fileName: ".env");
+  } catch (e) {
+    // ignore: avoid_print
+    print('⚠️ .env file not found, using default configuration');
+  }
   
   try {
     await Firebase.initializeApp(
