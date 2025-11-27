@@ -1,11 +1,11 @@
 // lib/presentation/screens/staff/tabs/queue_tab.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:smart_hospital_app/core/constants/app_colors.dart';
-import 'package:smart_hospital_app/data/models/patient_model.dart';
-import 'package:smart_hospital_app/presentation/providers/queue_provider.dart';
-import 'package:smart_hospital_app/presentation/screens/staff/widgets/queue_item_card.dart';
-import 'package:smart_hospital_app/presentation/screens/staff/widgets/add_to_queue_dialog.dart';
+import 'package:pulse/core/constants/app_colors.dart';
+import 'package:pulse/data/models/patient_model.dart';
+import 'package:pulse/presentation/providers/queue_provider.dart';
+import 'package:pulse/presentation/screens/staff/widgets/queue_item_card.dart';
+import 'package:pulse/presentation/screens/staff/widgets/add_to_queue_dialog.dart';
 
 class QueueTab extends ConsumerWidget {
   final String hospitalId;

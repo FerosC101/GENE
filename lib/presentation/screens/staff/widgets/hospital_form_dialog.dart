@@ -1,9 +1,9 @@
 // lib/presentation/screens/staff/widgets/hospital_form_dialog.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:smart_hospital_app/core/constants/app_colors.dart';
-import 'package:smart_hospital_app/data/models/hospital_model.dart';
-import 'package:smart_hospital_app/presentation/providers/hospital_provider.dart';
+import 'package:pulse/core/constants/app_colors.dart';
+import 'package:pulse/data/models/hospital_model.dart';
+import 'package:pulse/presentation/providers/hospital_provider.dart';
 
 class HospitalFormDialog extends ConsumerStatefulWidget {
   final HospitalModel? hospital;

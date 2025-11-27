@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:smart_hospital_app/core/constants/app_colors.dart';
+import 'package:pulse/core/constants/app_colors.dart';
 
 class AuthTextField extends StatelessWidget {
   final TextEditingController controller;

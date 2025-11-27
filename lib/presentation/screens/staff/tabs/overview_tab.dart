@@ -1,13 +1,13 @@
 // lib/presentation/screens/staff/tabs/overview_tab.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:smart_hospital_app/core/constants/app_colors.dart';
-import 'package:smart_hospital_app/presentation/providers/patient_provider.dart';
-import 'package:smart_hospital_app/presentation/providers/queue_provider.dart';
-import 'package:smart_hospital_app/presentation/screens/staff/widgets/quick_action_card.dart';
-import 'package:smart_hospital_app/presentation/screens/staff/widgets/patient_admission_dialog.dart';
-import 'package:smart_hospital_app/presentation/screens/staff/widgets/department_status_card.dart';
-import 'package:smart_hospital_app/presentation/screens/staff/widgets/critical_alert_card.dart';
+import 'package:pulse/core/constants/app_colors.dart';
+import 'package:pulse/presentation/providers/patient_provider.dart';
+import 'package:pulse/presentation/providers/queue_provider.dart';
+import 'package:pulse/presentation/screens/staff/widgets/quick_action_card.dart';
+import 'package:pulse/presentation/screens/staff/widgets/patient_admission_dialog.dart';
+import 'package:pulse/presentation/screens/staff/widgets/department_status_card.dart';
+import 'package:pulse/presentation/screens/staff/widgets/critical_alert_card.dart';
 import 'package:intl/intl.dart';
 
 class OverviewTab extends ConsumerWidget {

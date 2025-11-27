@@ -1,10 +1,10 @@
 // lib/presentation/providers/chat_provider.dart
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
-import 'package:smart_hospital_app/data/models/chat_message_model.dart';
-import 'package:smart_hospital_app/services/gemini_ai_service.dart';
-import 'package:smart_hospital_app/services/chat_context_service.dart';
-import 'package:smart_hospital_app/presentation/providers/auth_provider.dart';
+import 'package:pulse/data/models/chat_message_model.dart';
+import 'package:pulse/services/gemini_ai_service.dart';
+import 'package:pulse/services/chat_context_service.dart';
+import 'package:pulse/presentation/providers/auth_provider.dart';
 
 // Services
 final geminiServiceProvider = Provider((ref) => GeminiAIService());

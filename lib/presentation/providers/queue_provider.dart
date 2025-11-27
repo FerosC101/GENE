@@ -1,8 +1,8 @@
 // lib/presentation/providers/queue_provider.dart
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
-import 'package:smart_hospital_app/data/models/queue_model.dart';
-import 'package:smart_hospital_app/data/repositories/queue_repository.dart';
+import 'package:pulse/data/models/queue_model.dart';
+import 'package:pulse/data/repositories/queue_repository.dart';
 
 final queueRepositoryProvider = Provider((ref) => QueueRepository());
 

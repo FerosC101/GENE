@@ -1,5 +1,5 @@
-name: smart_hospital_app
-description: Smart Hospital GIS & AI Management System
+name: pulse
+description: Pulse - Smart Hospital Management System
 publish_to: 'none'
 version: 1.0.0+1
 

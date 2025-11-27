@@ -1,6 +1,6 @@
 // lib/presentation/screens/digital_twin/widgets/floor_selector.dart
 import 'package:flutter/material.dart';
-import 'package:smart_hospital_app/core/constants/app_colors.dart';
+import 'package:pulse/core/constants/app_colors.dart';
 
 class FloorSelector extends StatelessWidget {
   final int totalFloors;

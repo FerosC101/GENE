@@ -1,4 +1,4 @@
-# gene
+# Pulse
 
 A new Flutter project.
 

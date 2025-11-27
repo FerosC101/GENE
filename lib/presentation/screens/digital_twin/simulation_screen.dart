@@ -1,9 +1,9 @@
 // lib/presentation/screens/digital_twin/simulation_screen.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:smart_hospital_app/core/constants/app_colors.dart';
-import 'package:smart_hospital_app/data/models/hospital_model.dart';
-import 'package:smart_hospital_app/services/gemini_ai_service.dart';
+import 'package:pulse/core/constants/app_colors.dart';
+import 'package:pulse/data/models/hospital_model.dart';
+import 'package:pulse/services/gemini_ai_service.dart';
 
 enum SimulationScenario {
   patientSurge,

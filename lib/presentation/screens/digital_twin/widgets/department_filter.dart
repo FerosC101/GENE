@@ -1,6 +1,6 @@
 // lib/presentation/screens/digital_twin/widgets/department_filter.dart
 import 'package:flutter/material.dart';
-import 'package:smart_hospital_app/core/constants/app_colors.dart';
+import 'package:pulse/core/constants/app_colors.dart';
 
 class DepartmentFilter extends StatelessWidget {
   final List<String> departments;

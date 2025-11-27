@@ -1,6 +1,6 @@
 // lib/presentation/screens/ai/widgets/quick_action_button.dart
 import 'package:flutter/material.dart';
-import 'package:smart_hospital_app/core/constants/app_colors.dart';
+import 'package:pulse/core/constants/app_colors.dart';
 
 class QuickActionButton extends StatelessWidget {
   final IconData icon;

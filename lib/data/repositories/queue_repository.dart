@@ -1,6 +1,6 @@
 // lib/data/repositories/queue_repository.dart
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:smart_hospital_app/data/models/queue_model.dart';
+import 'package:pulse/data/models/queue_model.dart';
 
 class QueueRepository {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;

@@ -1,7 +1,7 @@
 // lib/services/chat_context_service.dart
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:smart_hospital_app/services/location_service.dart';
+import 'package:pulse/services/location_service.dart';
 
 class ChatContextService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;

@@ -1,7 +1,7 @@
 // lib/presentation/providers/user_provider.dart
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:smart_hospital_app/data/models/user_model.dart';
-import 'package:smart_hospital_app/data/repositories/user_repository.dart';
+import 'package:pulse/data/models/user_model.dart';
+import 'package:pulse/data/repositories/user_repository.dart';
 
 // Repository provider
 final userRepositoryProvider = Provider((ref) => UserRepository());

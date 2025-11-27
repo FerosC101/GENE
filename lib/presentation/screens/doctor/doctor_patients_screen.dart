@@ -1,8 +1,8 @@
 // lib/presentation/screens/doctor/doctor_patients_screen.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:smart_hospital_app/core/constants/app_colors.dart';
-import 'package:smart_hospital_app/presentation/providers/appointment_provider.dart';
+import 'package:pulse/core/constants/app_colors.dart';
+import 'package:pulse/presentation/providers/appointment_provider.dart';
 
 class DoctorPatientsScreen extends ConsumerWidget {
   final String doctorId;

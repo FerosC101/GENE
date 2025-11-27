@@ -1,9 +1,9 @@
 // lib/presentation/screens/staff/widgets/patient_admission_dialog.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:smart_hospital_app/core/constants/app_colors.dart';
-import 'package:smart_hospital_app/data/models/patient_model.dart';
-import 'package:smart_hospital_app/presentation/providers/patient_provider.dart';
+import 'package:pulse/core/constants/app_colors.dart';
+import 'package:pulse/data/models/patient_model.dart';
+import 'package:pulse/presentation/providers/patient_provider.dart';
 
 class PatientAdmissionDialog extends ConsumerStatefulWidget {
   final String hospitalId;

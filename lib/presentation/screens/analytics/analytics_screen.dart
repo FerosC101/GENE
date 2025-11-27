@@ -1,9 +1,9 @@
 // lib/presentation/screens/analytics/analytics_screen.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:smart_hospital_app/core/constants/app_colors.dart';
-import 'package:smart_hospital_app/presentation/providers/hospital_provider.dart';
-import 'package:smart_hospital_app/presentation/screens/analytics/ml_predictions_screen.dart';
+import 'package:pulse/core/constants/app_colors.dart';
+import 'package:pulse/presentation/providers/hospital_provider.dart';
+import 'package:pulse/presentation/screens/analytics/ml_predictions_screen.dart';
 import 'package:fl_chart/fl_chart.dart';
 
 class AnalyticsScreen extends ConsumerStatefulWidget {

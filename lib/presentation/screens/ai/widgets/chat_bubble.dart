@@ -1,8 +1,8 @@
 // lib/presentation/screens/ai/widgets/chat_bubble.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
-import 'package:smart_hospital_app/core/constants/app_colors.dart';
-import 'package:smart_hospital_app/data/models/chat_message_model.dart';
+import 'package:pulse/core/constants/app_colors.dart';
+import 'package:pulse/data/models/chat_message_model.dart';
 import 'package:intl/intl.dart';
 
 class ChatBubble extends StatelessWidget {

@@ -2,9 +2,9 @@
 // ignore_for_file: depend_on_referenced_packages
 
 import 'package:flutter/material.dart';
-import 'package:smart_hospital_app/core/constants/app_colors.dart';
-import 'package:smart_hospital_app/data/models/hospital_model.dart';
-import 'package:smart_hospital_app/presentation/screens/patient/book_appointment_screen.dart';
+import 'package:pulse/core/constants/app_colors.dart';
+import 'package:pulse/data/models/hospital_model.dart';
+import 'package:pulse/presentation/screens/patient/book_appointment_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class HospitalDetailScreen extends StatelessWidget {

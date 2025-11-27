@@ -1,35 +1,49 @@
 // lib/services/gemini_ai_service.dart
 import 'package:google_generative_ai/google_generative_ai.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:pulse/core/config/api_config.dart';
 
 class GeminiAIService {
-  static String get apiKey => dotenv.env['GEMINI_API_KEY'] ?? '';
+  static String get apiKey => ApiConfig.geminiApiKey;
   
-  late final GenerativeModel _model;
-  late ChatSession _chat; // Remove 'final' so it can be reassigned
+  late final GenerativeModel? _model;
+  late ChatSession? _chat; // Make nullable
+  bool _isInitialized = false;
 
   GeminiAIService() {
-    _model = GenerativeModel(
-      model: 'gemini-2.0-flash-001',
-      apiKey: apiKey,
-      generationConfig: GenerationConfig(
-        temperature: 0.7,
-        topK: 40,
-        topP: 0.95,
-        maxOutputTokens: 1024,
-      ),
-      safetySettings: [
-        SafetySetting(HarmCategory.harassment, HarmBlockThreshold.medium),
-        SafetySetting(HarmCategory.hateSpeech, HarmBlockThreshold.medium),
-        SafetySetting(HarmCategory.sexuallyExplicit, HarmBlockThreshold.medium),
-        SafetySetting(HarmCategory.dangerousContent, HarmBlockThreshold.medium),
-      ],
-    );
+    try {
+      if (apiKey.isEmpty) {
+        print('⚠️ GEMINI_API_KEY is not set. AI Chat will not be available.');
+        _isInitialized = false;
+        return;
+      }
 
-    _initializeChat();
+      _model = GenerativeModel(
+        model: 'gemini-2.0-flash-001',
+        apiKey: apiKey,
+        generationConfig: GenerationConfig(
+          temperature: 0.7,
+          topK: 40,
+          topP: 0.95,
+          maxOutputTokens: 1024,
+        ),
+        safetySettings: [
+          SafetySetting(HarmCategory.harassment, HarmBlockThreshold.medium),
+          SafetySetting(HarmCategory.hateSpeech, HarmBlockThreshold.medium),
+          SafetySetting(HarmCategory.sexuallyExplicit, HarmBlockThreshold.medium),
+          SafetySetting(HarmCategory.dangerousContent, HarmBlockThreshold.medium),
+        ],
+      );
+
+      _initializeChat();
+      _isInitialized = true;
+    } catch (e) {
+      print('❌ Failed to initialize GeminiAIService: $e');
+      _isInitialized = false;
+    }
   }
 
   void _initializeChat() {
+    if (_model == null) return;
     _chat = _model.startChat(history: [
       Content.text(_getSystemPrompt()),
     ]);
@@ -88,6 +102,10 @@ CRITICAL: Base ALL hospital information on the context data provided. Do not inv
     Map<String, dynamic>? context,
   }) async {
     try {
+      if (!_isInitialized || _chat == null || _model == null) {
+        return 'AI Chat is currently unavailable. Please ensure the GEMINI_API_KEY is configured in your .env file.';
+      }
+
       String enhancedMessage = message;
       
       // Add context if provided
@@ -128,7 +146,7 @@ CRITICAL: Base ALL hospital information on the context data provided. Do not inv
       print('📤 Sending to Gemini: $enhancedMessage');
 
       // Add timeout to prevent infinite loading
-      final response = await _chat.sendMessage(
+      final response = await _chat!.sendMessage(
         Content.text(enhancedMessage),
       ).timeout(
         const Duration(seconds: 30),

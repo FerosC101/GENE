@@ -4,15 +4,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'firebase_options.dart';
-import 'package:smart_hospital_app/core/themes/app_theme.dart';
-import 'package:smart_hospital_app/data/models/user_type.dart';
-import 'package:smart_hospital_app/presentation/providers/auth_provider.dart';
-import 'package:smart_hospital_app/presentation/screens/auth/welcome_screen.dart';
-import 'package:smart_hospital_app/presentation/screens/home/home_screen.dart';
-import 'package:smart_hospital_app/presentation/screens/staff/staff_dashboard_screen.dart';
-import 'package:smart_hospital_app/presentation/screens/admin/admin_dashboard_screen.dart';
-import 'package:smart_hospital_app/presentation/screens/doctor/doctor_dashboard_screen.dart';
-import 'package:smart_hospital_app/presentation/screens/splash/splash_screen.dart';
+import 'package:pulse/core/themes/app_theme.dart';
+import 'package:pulse/data/models/user_type.dart';
+import 'package:pulse/presentation/providers/auth_provider.dart';
+import 'package:pulse/presentation/screens/auth/welcome_screen.dart';
+import 'package:pulse/presentation/screens/home/home_screen.dart';
+import 'package:pulse/presentation/screens/staff/staff_dashboard_screen.dart';
+import 'package:pulse/presentation/screens/admin/admin_dashboard_screen.dart';
+import 'package:pulse/presentation/screens/doctor/doctor_dashboard_screen.dart';
+import 'package:pulse/presentation/screens/splash/splash_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -50,7 +50,7 @@ class MyApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return MaterialApp(
-      title: 'MedMap AI',
+      title: 'Pulse',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
       home: const AuthWrapper(),

@@ -1,9 +1,9 @@
 // lib/presentation/screens/patient/hospital_list_screen.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:smart_hospital_app/core/constants/app_colors.dart';
-import 'package:smart_hospital_app/presentation/providers/hospital_provider.dart';
-import 'package:smart_hospital_app/presentation/screens/patient/hospital_detail_screen.dart';
+import 'package:pulse/core/constants/app_colors.dart';
+import 'package:pulse/presentation/providers/hospital_provider.dart';
+import 'package:pulse/presentation/screens/patient/hospital_detail_screen.dart';
 
 class HospitalListScreen extends ConsumerStatefulWidget {
   const HospitalListScreen({super.key});

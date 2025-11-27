@@ -1,11 +1,11 @@
 // lib/presentation/screens/doctor/doctor_appointments_screen.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:smart_hospital_app/core/constants/app_colors.dart';
-import 'package:smart_hospital_app/data/models/appointment_model.dart';
-import 'package:smart_hospital_app/data/models/appointment_status.dart' show AppointmentStatus;
-import 'package:smart_hospital_app/presentation/providers/appointment_provider.dart';
-import 'package:smart_hospital_app/presentation/screens/doctor/appointment_detail_screen.dart';
+import 'package:pulse/core/constants/app_colors.dart';
+import 'package:pulse/data/models/appointment_model.dart';
+import 'package:pulse/data/models/appointment_status.dart' show AppointmentStatus;
+import 'package:pulse/presentation/providers/appointment_provider.dart';
+import 'package:pulse/presentation/screens/doctor/appointment_detail_screen.dart';
 import 'package:intl/intl.dart';
 
 class DoctorAppointmentsScreen extends ConsumerStatefulWidget {

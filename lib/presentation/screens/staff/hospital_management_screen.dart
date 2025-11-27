@@ -1,9 +1,9 @@
 // lib/presentation/screens/staff/hospital_management_screen.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:smart_hospital_app/core/constants/app_colors.dart';
-import 'package:smart_hospital_app/presentation/providers/hospital_provider.dart';
-import 'package:smart_hospital_app/presentation/screens/staff/widgets/hospital_form_dialog.dart';
+import 'package:pulse/core/constants/app_colors.dart';
+import 'package:pulse/presentation/providers/hospital_provider.dart';
+import 'package:pulse/presentation/screens/staff/widgets/hospital_form_dialog.dart';
 
 class HospitalManagementScreen extends ConsumerWidget {
   const HospitalManagementScreen({super.key});

@@ -2,10 +2,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:smart_hospital_app/core/constants/app_colors.dart';
-import 'package:smart_hospital_app/presentation/providers/hospital_provider.dart';
-import 'package:smart_hospital_app/data/repositories/doctor_repository.dart';
-import 'package:smart_hospital_app/presentation/screens/staff/widgets/doctor_form_dialog.dart';
+import 'package:pulse/core/constants/app_colors.dart';
+import 'package:pulse/presentation/providers/hospital_provider.dart';
+import 'package:pulse/data/repositories/doctor_repository.dart';
+import 'package:pulse/presentation/screens/staff/widgets/doctor_form_dialog.dart';
 
 final doctorRepositoryProvider = Provider((ref) => DoctorRepository());
 

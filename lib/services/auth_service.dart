@@ -2,8 +2,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
-import 'package:smart_hospital_app/data/models/user_model.dart';
-import 'package:smart_hospital_app/data/models/user_type.dart';
+import 'package:pulse/data/models/user_model.dart';
+import 'package:pulse/data/models/user_type.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;

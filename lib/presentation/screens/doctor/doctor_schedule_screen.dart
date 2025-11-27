@@ -1,9 +1,9 @@
 // lib/presentation/screens/doctor/doctor_schedule_screen.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:smart_hospital_app/core/constants/app_colors.dart';
-import 'package:smart_hospital_app/data/models/doctor_schedule_model.dart';
-import 'package:smart_hospital_app/presentation/providers/schedule_provider.dart';
+import 'package:pulse/core/constants/app_colors.dart';
+import 'package:pulse/data/models/doctor_schedule_model.dart';
+import 'package:pulse/presentation/providers/schedule_provider.dart';
 
 class DoctorScheduleScreen extends ConsumerStatefulWidget {
   final String doctorId;

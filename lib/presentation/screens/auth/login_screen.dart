@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:smart_hospital_app/core/constants/app_colors.dart';
-import 'package:smart_hospital_app/data/models/user_type.dart';
-import 'package:smart_hospital_app/presentation/providers/auth_provider.dart';
-import 'package:smart_hospital_app/presentation/screens/auth/register_screen.dart';
-import 'package:smart_hospital_app/presentation/screens/auth/widgets/auth_text_field.dart';
-import 'package:smart_hospital_app/presentation/screens/home/home_screen.dart';
-import 'package:smart_hospital_app/presentation/screens/staff/staff_dashboard_screen.dart';
-import 'package:smart_hospital_app/presentation/screens/admin/admin_dashboard_screen.dart';
-import 'package:smart_hospital_app/presentation/screens/doctor/doctor_dashboard_screen.dart';
+import 'package:pulse/core/constants/app_colors.dart';
+import 'package:pulse/data/models/user_type.dart';
+import 'package:pulse/presentation/providers/auth_provider.dart';
+import 'package:pulse/presentation/screens/auth/register_screen.dart';
+import 'package:pulse/presentation/screens/auth/widgets/auth_text_field.dart';
+import 'package:pulse/presentation/screens/home/home_screen.dart';
+import 'package:pulse/presentation/screens/staff/staff_dashboard_screen.dart';
+import 'package:pulse/presentation/screens/admin/admin_dashboard_screen.dart';
+import 'package:pulse/presentation/screens/doctor/doctor_dashboard_screen.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   final UserType userType;

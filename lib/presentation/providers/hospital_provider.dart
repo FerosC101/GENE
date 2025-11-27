@@ -3,9 +3,9 @@
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
-import 'package:smart_hospital_app/data/models/hospital_model.dart';
-import 'package:smart_hospital_app/data/repositories/hospital_repository.dart';
-import 'package:smart_hospital_app/presentation/providers/patient_provider.dart';
+import 'package:pulse/data/models/hospital_model.dart';
+import 'package:pulse/data/repositories/hospital_repository.dart';
+import 'package:pulse/presentation/providers/patient_provider.dart';
 
 import '../../data/models/patient_model.dart';
 

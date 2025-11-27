@@ -1,6 +1,6 @@
 // lib/presentation/screens/ai/widgets/typing_indicator.dart
 import 'package:flutter/material.dart';
-import 'package:smart_hospital_app/core/constants/app_colors.dart';
+import 'package:pulse/core/constants/app_colors.dart';
 
 class TypingIndicator extends StatefulWidget {
   const TypingIndicator({super.key});

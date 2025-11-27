@@ -3,8 +3,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:smart_hospital_app/core/constants/app_colors.dart';
-import 'package:smart_hospital_app/presentation/screens/staff/doctor_management_screen.dart';
+import 'package:pulse/core/constants/app_colors.dart';
+import 'package:pulse/presentation/screens/staff/doctor_management_screen.dart';
 
 class DoctorFormDialog extends ConsumerStatefulWidget {
   final String hospitalId;

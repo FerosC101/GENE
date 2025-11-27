@@ -1,9 +1,9 @@
 // lib/presentation/screens/analytics/ml_predictions_screen.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:smart_hospital_app/core/constants/app_colors.dart';
-import 'package:smart_hospital_app/presentation/providers/hospital_provider.dart';
-import 'package:smart_hospital_app/services/ml_prediction_service.dart';
+import 'package:pulse/core/constants/app_colors.dart';
+import 'package:pulse/presentation/providers/hospital_provider.dart';
+import 'package:pulse/services/ml_prediction_service.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:intl/intl.dart';
 

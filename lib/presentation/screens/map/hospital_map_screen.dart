@@ -5,10 +5,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:smart_hospital_app/core/constants/app_colors.dart';
-import 'package:smart_hospital_app/data/models/hospital_model.dart';
-import 'package:smart_hospital_app/presentation/providers/hospital_provider.dart';
-import 'package:smart_hospital_app/presentation/screens/patient/hospital_detail_screen.dart';
+import 'package:pulse/core/constants/app_colors.dart';
+import 'package:pulse/data/models/hospital_model.dart';
+import 'package:pulse/presentation/providers/hospital_provider.dart';
+import 'package:pulse/presentation/screens/patient/hospital_detail_screen.dart';
 
 class HospitalMapScreen extends ConsumerStatefulWidget {
   final bool isEmergencyMode;

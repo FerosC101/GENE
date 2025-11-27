@@ -1,9 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
-import 'package:smart_hospital_app/data/models/user_model.dart';
-import 'package:smart_hospital_app/data/models/user_type.dart';
-import 'package:smart_hospital_app/services/auth_service.dart';
+import 'package:pulse/data/models/user_model.dart';
+import 'package:pulse/data/models/user_type.dart';
+import 'package:pulse/services/auth_service.dart';
 
 // Auth service provider
 final authServiceProvider = Provider<AuthService>((ref) => AuthService());

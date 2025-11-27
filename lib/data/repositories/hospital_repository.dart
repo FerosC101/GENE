@@ -1,6 +1,6 @@
 // lib/data/repositories/hospital_repository.dart
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:smart_hospital_app/data/models/hospital_model.dart';
+import 'package:pulse/data/models/hospital_model.dart';
 
 class HospitalRepository {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;

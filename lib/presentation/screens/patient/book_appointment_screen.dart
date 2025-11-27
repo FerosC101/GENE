@@ -1,16 +1,16 @@
 // lib/presentation/screens/patient/book_appointment_screen.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:smart_hospital_app/core/constants/app_colors.dart';
-import 'package:smart_hospital_app/data/models/appointment_model.dart';
-import 'package:smart_hospital_app/data/models/appointment_status.dart' show AppointmentStatus;
-import 'package:smart_hospital_app/data/models/appointment_type.dart' show AppointmentType;
-import 'package:smart_hospital_app/data/models/hospital_model.dart';
-import 'package:smart_hospital_app/data/models/user_model.dart';
-import 'package:smart_hospital_app/presentation/providers/user_provider.dart';
-import 'package:smart_hospital_app/presentation/providers/schedule_provider.dart';
-import 'package:smart_hospital_app/presentation/providers/appointment_provider.dart';
-import 'package:smart_hospital_app/presentation/providers/auth_provider.dart';
+import 'package:pulse/core/constants/app_colors.dart';
+import 'package:pulse/data/models/appointment_model.dart';
+import 'package:pulse/data/models/appointment_status.dart' show AppointmentStatus;
+import 'package:pulse/data/models/appointment_type.dart' show AppointmentType;
+import 'package:pulse/data/models/hospital_model.dart';
+import 'package:pulse/data/models/user_model.dart';
+import 'package:pulse/presentation/providers/user_provider.dart';
+import 'package:pulse/presentation/providers/schedule_provider.dart';
+import 'package:pulse/presentation/providers/appointment_provider.dart';
+import 'package:pulse/presentation/providers/auth_provider.dart';
 import 'package:intl/intl.dart';
 
 class BookAppointmentScreen extends ConsumerStatefulWidget {

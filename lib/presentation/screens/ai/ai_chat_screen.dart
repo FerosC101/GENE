@@ -3,13 +3,13 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:smart_hospital_app/core/constants/app_colors.dart';
-import 'package:smart_hospital_app/presentation/providers/chat_provider.dart';
-import 'package:smart_hospital_app/presentation/screens/ai/widgets/chat_bubble.dart';
-import 'package:smart_hospital_app/presentation/screens/ai/widgets/typing_indicator.dart';
-import 'package:smart_hospital_app/presentation/screens/ai/widgets/quick_action_button.dart';
-import 'package:smart_hospital_app/services/location_service.dart';
-import 'package:smart_hospital_app/presentation/screens/patient/hospital_list_screen.dart';
+import 'package:pulse/core/constants/app_colors.dart';
+import 'package:pulse/presentation/providers/chat_provider.dart';
+import 'package:pulse/presentation/screens/ai/widgets/chat_bubble.dart';
+import 'package:pulse/presentation/screens/ai/widgets/typing_indicator.dart';
+import 'package:pulse/presentation/screens/ai/widgets/quick_action_button.dart';
+import 'package:pulse/services/location_service.dart';
+import 'package:pulse/presentation/screens/patient/hospital_list_screen.dart';
 
 class AIChatScreen extends ConsumerStatefulWidget {
   const AIChatScreen({super.key});

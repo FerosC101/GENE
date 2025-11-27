@@ -1,6 +1,6 @@
 // lib/services/ml_prediction_service.dart
 import 'dart:math';
-import 'package:smart_hospital_app/data/models/hospital_model.dart';
+import 'package:pulse/data/models/hospital_model.dart';
 
 enum Trend { increasing, stable, decreasing }
 enum RiskLevel { low, medium, high }

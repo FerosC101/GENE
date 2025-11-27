@@ -1,8 +1,8 @@
 // lib/presentation/screens/staff/tabs/bed_status_tab.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:smart_hospital_app/presentation/providers/patient_provider.dart';
-import 'package:smart_hospital_app/presentation/screens/staff/widgets/bed_card.dart';
+import 'package:pulse/presentation/providers/patient_provider.dart';
+import 'package:pulse/presentation/screens/staff/widgets/bed_card.dart';
 
 class BedStatusTab extends ConsumerStatefulWidget {
   final String hospitalId;

@@ -1,7 +1,7 @@
 // lib/presentation/providers/schedule_provider.dart
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:smart_hospital_app/data/models/doctor_schedule_model.dart';
-import 'package:smart_hospital_app/data/repositories/schedule_repository.dart';
+import 'package:pulse/data/models/doctor_schedule_model.dart';
+import 'package:pulse/data/repositories/schedule_repository.dart';
 
 // Repository provider
 final scheduleRepositoryProvider = Provider((ref) => ScheduleRepository());

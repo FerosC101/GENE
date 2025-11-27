@@ -1,8 +1,8 @@
 // ignore_for_file: deprecated_member_use
 
 import 'package:flutter/material.dart';
-import 'package:smart_hospital_app/core/constants/app_colors.dart';
-import 'package:smart_hospital_app/presentation/screens/auth/role_selection_screen.dart';
+import 'package:pulse/core/constants/app_colors.dart';
+import 'package:pulse/presentation/screens/auth/role_selection_screen.dart';
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});
@@ -30,8 +30,8 @@ class WelcomeScreen extends StatelessWidget {
               children: [
                 const Spacer(),
                 
-                Image.network(
-                  'https://res.cloudinary.com/dhqosbqeh/image/upload/v1763996690/logo_pulse_e2wf52.png',
+                Image.asset(
+                  'assets/images/logo_pulse.png',
                   width: 100,
                   height: 100,
                   fit: BoxFit.contain,
