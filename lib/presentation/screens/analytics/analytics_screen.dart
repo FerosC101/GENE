@@ -168,7 +168,7 @@ class _AnalyticsScreenState extends ConsumerState<AnalyticsScreen> {
           const SizedBox(width: 16),
           Expanded(
             child: DropdownButtonFormField<String?>(
-              value: _selectedHospitalId,
+              initialValue: _selectedHospitalId,
               decoration: const InputDecoration(
                 contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                 border: OutlineInputBorder(),
@@ -187,7 +187,7 @@ class _AnalyticsScreenState extends ConsumerState<AnalyticsScreen> {
                       overflow: TextOverflow.ellipsis,
                     ),
                   );
-                }).toList(),
+                }),
               ],
               onChanged: (value) {
                 setState(() {

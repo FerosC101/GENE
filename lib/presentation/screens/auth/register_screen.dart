@@ -513,8 +513,8 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                           ),
                         );
                       },
-                      child: const Text('Login'),
                       style: TextButton.styleFrom(foregroundColor: AppColors.primary),
+                      child: const Text('Login'),
                     ),
                   ],
                 ),
@@ -564,7 +564,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                   ),
                   const SizedBox(height: 8),
                   DropdownButtonFormField<String>(
-                    value: _selectedHospitalId,
+                    initialValue: _selectedHospitalId,
                     decoration: InputDecoration(
                       hintText: 'Choose your hospital',
                       prefixIcon: const Icon(Icons.local_hospital),

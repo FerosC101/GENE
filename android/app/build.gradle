@@ -23,7 +23,7 @@ if (flutterVersionName == null) {
 }
 
 android {
-    namespace "com.nextcs.pulse"
+    namespace "com.nextcs.gene"
     compileSdk 36
     ndkVersion flutter.ndkVersion
 
@@ -41,7 +41,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.nextcs.pulse"
+        applicationId "com.nextcs.gene"
         minSdkVersion flutter.minSdkVersion
         targetSdk 36
         minSdkVersion = flutter.minSdkVersion

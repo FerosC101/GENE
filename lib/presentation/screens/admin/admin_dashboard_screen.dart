@@ -290,9 +290,8 @@ class _StatCard extends StatelessWidget {
   const _StatCard({
     required this.title,
     required this.value,
-    this.icon,
     this.iconAsset,
-    required this.color,
+    required this.color, this.icon,
   });
 
   @override
@@ -373,10 +372,9 @@ class _ManagementCard extends StatelessWidget {
   const _ManagementCard({
     required this.title,
     required this.subtitle,
-    this.icon,
     this.iconAsset,
     required this.color,
-    required this.onTap,
+    required this.onTap, this.icon,
   });
 
   @override

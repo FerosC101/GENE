@@ -302,8 +302,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   alignment: Alignment.centerRight,
                   child: TextButton(
                     onPressed: _handleForgotPassword,
-                    child: const Text('Forgot Password?'),
                     style: TextButton.styleFrom(foregroundColor: AppColors.primary),
+                    child: const Text('Forgot Password?'),
                   ),
                 ),
                 const SizedBox(height: 32),
@@ -363,8 +363,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                           ),
                         );
                       },
-                      child: const Text('Register'),
                       style: TextButton.styleFrom(foregroundColor: AppColors.primary),
+                      child: const Text('Register'),
                     ),
                   ],
                 ),

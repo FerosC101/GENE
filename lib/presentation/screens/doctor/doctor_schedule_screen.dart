@@ -265,9 +265,9 @@ class _DoctorScheduleScreenState extends ConsumerState<DoctorScheduleScreen> {
                 borderRadius: BorderRadius.circular(8),
               ),
               child: iconAsset != null
-                  ? (iconAsset!.startsWith('http://') || iconAsset!.startsWith('https://')
+                  ? (iconAsset.startsWith('http://') || iconAsset.startsWith('https://')
                       ? Image.network(
-                          iconAsset!,
+                          iconAsset,
                           width: 20,
                           height: 20,
                           fit: BoxFit.contain,
@@ -275,7 +275,7 @@ class _DoctorScheduleScreenState extends ConsumerState<DoctorScheduleScreen> {
                           errorBuilder: (context, error, stack) => Icon(icon, color: AppColors.primary, size: 20),
                         )
                       : Image.asset(
-                          iconAsset!,
+                          iconAsset,
                           width: 20,
                           height: 20,
                           fit: BoxFit.contain,

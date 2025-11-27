@@ -5,7 +5,6 @@ import 'package:pulse/core/constants/app_colors.dart';
 import 'package:pulse/presentation/providers/hospital_provider.dart';
 import 'package:pulse/services/ml_prediction_service.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'package:intl/intl.dart';
 
 class MLPredictionsScreen extends ConsumerWidget {
   const MLPredictionsScreen({super.key});
@@ -428,7 +427,7 @@ class MLPredictionsScreen extends ConsumerWidget {
                 ],
               ),
             );
-          }).toList(),
+          }),
         ],
       ),
     );
